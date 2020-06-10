@@ -1,18 +1,18 @@
+import 'package:intl/intl.dart';
 import 'package:myrscm/constant.dart';
 import 'package:flutter/material.dart';
-class FormInputWidget extends StatefulWidget {
+class FormDatePickerWidget extends StatefulWidget {
 
   final String label;
   final TextEditingController controller;
-  final bool isPassword;
-
-  FormInputWidget({this.label, this.controller, this.isPassword});
+  FormDatePickerWidget({this.label, this.controller});
 
   @override
-  _FormInputWidgetState createState() => _FormInputWidgetState();
+  _FormDatePickerWidgetState createState() => _FormDatePickerWidgetState();
 }
 
-class _FormInputWidgetState extends State<FormInputWidget> {
+class _FormDatePickerWidgetState extends State<FormDatePickerWidget> {
+  var formatter = new DateFormat('yyyy-MM-dd');
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -27,17 +27,28 @@ class _FormInputWidgetState extends State<FormInputWidget> {
         subtitle: Theme(
             data: Theme.of(context).copyWith(
               primaryColor: defaultAppbarColor,
-              cursorColor: defaultAppbarColor,
-              //accentColor: defaultAppbarColor,
+              accentColor: defaultAppbarColor,
               buttonTheme: ButtonThemeData(
-                  textTheme: ButtonTextTheme.primary
+                  textTheme: ButtonTextTheme.accent
               ),
             ),
             child: Builder(
                 builder: (context) => TextFormField(
                   maxLines: 1,
-                  obscureText: widget.isPassword,
                   controller: widget.controller,
+                  readOnly: true,
+                  onTap: (){
+                    showDatePicker(context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(1950),
+                        lastDate: DateTime.now()).then((val){
+                          if(val != null){
+                            String formatted = formatter.format(val);
+                            print(formatted);
+                            widget.controller.text = formatted;
+                          }
+                    }).catchError((e)=> print(e));
+                  },
                   validator: (value) {
                     if (value.isEmpty) return '${widget.label} tidak boleh kosong!';
                     if (value.contains(defaultRegex,0)) return 'Terdapat karakter yang tidak diizinkan!';
@@ -49,4 +60,3 @@ class _FormInputWidgetState extends State<FormInputWidget> {
     );
   }
 }
-

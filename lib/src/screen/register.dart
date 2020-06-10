@@ -1,4 +1,5 @@
 import 'package:myrscm/constant.dart';
+import 'package:myrscm/src/model/patient_model.dart';
 import 'package:myrscm/src/screen/shared_preferences.dart';
 import 'package:myrscm/src/view/widget/form_input.dart';
 import 'package:myrscm/src/view/widget/list_tile_profile.dart';
@@ -11,6 +12,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
 
+  final globalScaffoldKey = GlobalKey<ScaffoldState>();
   final _formRegistration = GlobalKey<FormState>();
   final username = TextEditingController();
   final password = TextEditingController();
@@ -18,7 +20,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final PatientModel args = ModalRoute.of(context).settings.arguments;
     return Scaffold(
+      key: globalScaffoldKey,
       backgroundColor: defaultAppbarColor,
       body: NestedScrollView(
         headerSliverBuilder: (context, isScrolled){
@@ -44,7 +48,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: ExpansionTile(
-                    title: Text('Kemal Wibisono',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w300, color: Colors.grey[700])),
+                    title: Text(args.patientName,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w300, color: Colors.grey[700])),
                     children: <Widget>[
                       Container(
                           decoration: BoxDecoration(
@@ -54,15 +58,15 @@ class _RegisterPageState extends State<RegisterPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: <Widget>[
-                              ListTileDetailProfile(title: 'Tempat tanggal lahir', content: 'Jakarta, 25 Februari 1993', icon: Icons.cake),
-                              Divider(color: Colors.grey[300]),
-                              ListTileDetailProfile(title: 'Nomor Rekam Medik', content: '443-79-01', icon: Icons.confirmation_number),
-                              Divider(color: Colors.grey[300]),
-                              ListTileDetailProfile(title: 'Jenis Kelamin', content: 'Laki-laki', icon: Icons.perm_identity),
-                              Divider(color: Colors.grey[300]),
-                              ListTileDetailProfile(title: 'Alamat', content: 'Komplek jati unggul blok a 11 no 16 harapan jaya bekasi utara Kota Bekasi', icon: Icons.home),
-                              Divider(color: Colors.grey[300]),
-                              ListTileDetailProfile(title: 'Telepon', content: '082143530880', icon: Icons.phone)
+                              //ListTileDetailProfile(title: 'Tempat tanggal lahir', content: 'Jakarta, 25 Februari 1993', icon: Icons.cake),
+                              //Divider(color: Colors.grey[300]),
+                              ListTileDetailProfile(title: 'Nomor Rekam Medik', content: args.patientMRN, icon: Icons.confirmation_number),
+                              //Divider(color: Colors.grey[300]),
+                              //ListTileDetailProfile(title: 'Jenis Kelamin', content: 'Laki-laki', icon: Icons.perm_identity),
+                              //Divider(color: Colors.grey[300]),
+                              //ListTileDetailProfile(title: 'Alamat', content: 'Komplek jati unggul blok a 11 no 16 harapan jaya bekasi utara Kota Bekasi', icon: Icons.home),
+                              //Divider(color: Colors.grey[300]),
+                              //ListTileDetailProfile(title: 'Telepon', content: '082143530880', icon: Icons.phone)
                             ],
                           )
                       )
@@ -95,9 +99,14 @@ class _RegisterPageState extends State<RegisterPage> {
                   InkWell(
                     onTap: (){
                       if(_formRegistration.currentState.validate()){
-                        MySharedPreferences sp = MySharedPreferences(context: this.context);
-                        sp.saveData(pasienUjiCoba, true);
-                        Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+                        if(password.text == confirmPassword.text){
+                          MySharedPreferences sp = MySharedPreferences(context: this.context);
+                          sp.savePatientPref(args, true);
+                          Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+                        } else {
+                          final snackBar = SnackBar(content: Text("Your password and confirm password doesn't match!"));
+                          globalScaffoldKey.currentState.showSnackBar(snackBar);
+                        }
                       }
                     },
                     child: Container(

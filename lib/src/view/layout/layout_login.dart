@@ -46,6 +46,7 @@ class _HorizontalLayoutStateLogin extends State<HorizontalLayoutLogin> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
                         FormInputWidget(label: "Username", controller: userName, isPassword: false),
+
                         FormInputWidget(label: "Password", controller: password, isPassword: true),
                         ListTile(
                           onTap: (){

@@ -1,4 +1,5 @@
 import 'package:myrscm/constant.dart';
+import 'package:myrscm/src/model/patient_model.dart';
 import 'package:myrscm/src/view/widget/form_input.dart';
 import 'package:flutter/material.dart';
 class ForgotPasswordResetPage extends StatefulWidget {
@@ -7,14 +8,17 @@ class ForgotPasswordResetPage extends StatefulWidget {
 }
 
 class _ForgotPasswordResetPageState extends State<ForgotPasswordResetPage> {
-
+  final globalScaffoldKey = GlobalKey<ScaffoldState>();
   final _formResetPassword = GlobalKey<FormState>();
   final newPassword = TextEditingController();
   final confirmNewPassword = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final PatientModel args = ModalRoute.of(context).settings.arguments;
+    print('forgot_pass ${args.patientId}');
     return Scaffold(
+      key: globalScaffoldKey,
       appBar: AppBar(
         centerTitle: true,
         title: Text('Reset Password'),
@@ -53,7 +57,14 @@ class _ForgotPasswordResetPageState extends State<ForgotPasswordResetPage> {
                           InkWell(
                             onTap: (){
                               if(_formResetPassword.currentState.validate()){
-                                Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+                                if(newPassword.text == confirmNewPassword.text){
+                                  final snackBar = SnackBar(content: Text("Reset password successfully..."));
+                                  globalScaffoldKey.currentState.showSnackBar(snackBar);
+                                  Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+                                } else {
+                                  final snackBar = SnackBar(content: Text("Your new password and confirm new password doesn't match!"));
+                                  globalScaffoldKey.currentState.showSnackBar(snackBar);
+                                }
                               }
                             },
                             child: Container(
