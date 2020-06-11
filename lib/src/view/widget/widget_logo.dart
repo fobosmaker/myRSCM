@@ -7,7 +7,7 @@ class WidgetLogo extends StatelessWidget {
         padding: EdgeInsets.all(4),
         child: Center(
             child: Image(
-                image: AssetImage('assets/rscm_kencana_logo.jpg')
+                image: AssetImage('assets/myrscm_horizontal.png')
             )
         )
     );

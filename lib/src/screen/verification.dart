@@ -71,7 +71,6 @@ class _VerificationPageState extends State<VerificationPage> {
                       children: <Widget>[
                         FormInputWidget(label: "Nomor Rekam Medik", controller: nomorRekamMedik, isPassword: false),
                         FormDatePickerWidget(label: "Tanggal Lahir", controller: tanggalLahir),
-                        /*FormInputWidget(label: "Tanggal Lahir", controller: tanggalLahir, isPassword: false),*/
                         isClick == true ?
                         StreamBuilder(
                             initialData: bloc.fetchDataLogin(nomorRekamMedik.text,tanggalLahir.text),

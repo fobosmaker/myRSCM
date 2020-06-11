@@ -259,7 +259,7 @@ class _VerticalLayoutStateLogin extends State<VerticalLayoutLogin> {
             children: <Widget>[
               SizedBox(height: 50,),
               Center(
-                child: Image(image: AssetImage('assets/rscm_kencana_logo.jpg'),width: 200, height: 100, alignment: Alignment.centerLeft),
+                child: Image(image: AssetImage('assets/myRSCM_horizontal.png'),width: 250, height: 125, fit: BoxFit.scaleDown,alignment: Alignment.centerLeft),
               ),
               SizedBox(height: 50,),
               Expanded(

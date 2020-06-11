@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:myrscm/constant.dart';
 import 'package:myrscm/src/screen/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
@@ -15,14 +17,9 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
     Future.delayed(Duration(seconds: 3), () {
       //cek if user is login or not
       MySharedPreferences sp = MySharedPreferences(context: this.context);
-      sp.getBool().then((val){
-        print('login: $val');
-      //if there is no session
-      if(!val){
-        //move to login
-        Navigator.pushReplacementNamed(context, '/login');
-      }
-      else Navigator.pushReplacementNamed(context, '/home');
+      sp.getPatientIsLogin().then((bool){
+        if(bool) Navigator.pushReplacementNamed(context, '/home');
+        else Navigator.pushReplacementNamed(context, '/login');
       });
     });
 
@@ -36,26 +33,30 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.grey[50],
-      child: SafeArea(
-          child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/rscm_kencana.jpg'),
-                  fit: BoxFit.fitHeight
-              )
-            ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            flex: 1,
             child: Container(
-                margin: EdgeInsets.only(left: 15, top: 15),
-                alignment: Alignment.topLeft,
-                child: Image(
-                  image: AssetImage('assets/rscm_kencana_logo.jpg'),
-                  width: 100,
-                  height: 50 )
-            ),
-          )
-      ),
+              color: Colors.white,
+              child: Center(
+                  child: Image(
+                    image: AssetImage('assets/myRSCM.png'),
+                    width: 225,
+                    height: 225,
+                    fit: BoxFit.scaleDown,
+                  )
+              )
+            )
+          ),
+          Container(
+            child: Text('Powered by UMSI', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 10, color: defaultAppbarColor),)
+          ),
+          SizedBox(height: 20,)
+      ],) 
+      
     );
   }
 }

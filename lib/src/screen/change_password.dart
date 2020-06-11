@@ -1,4 +1,5 @@
 import 'package:myrscm/constant.dart';
+import 'package:myrscm/src/screen/page_loading.dart';
 import 'package:myrscm/src/screen/shared_preferences.dart';
 import 'package:myrscm/src/view/widget/form_input.dart';
 import 'package:flutter/material.dart';
@@ -13,15 +14,28 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   final oldPass = TextEditingController();
   final newPass = TextEditingController();
   final confirmPass = TextEditingController();
+  bool isGetPref = false;
+  MySharedPreferences sp;
+
+  @override
+  void initState() {
+    sp = MySharedPreferences(context: context);
+    sp.getPatientIsLogin().then((isLogin){
+      print('initState: $isLogin');
+      //if user not login, clear preferences and remove preferences data
+      if(!isLogin) sp.clearData();
+
+      //else get preferences done
+      setState(() => isGetPref = true);
+    });
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
-
-    //check user session
-    MySharedPreferences sp = MySharedPreferences(context: this.context);
-    sp.checkBoolean();
-
-    return Scaffold(
+    return isGetPref == true ?
+      Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text('Ubah Password'),
@@ -92,6 +106,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           ),
         ),
       ),
-    );
+    )
+      :
+      PageLoading()
+    ;
   }
 }

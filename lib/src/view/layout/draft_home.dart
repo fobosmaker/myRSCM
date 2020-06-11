@@ -1,6 +1,5 @@
 import 'package:myrscm/constant.dart';
 import 'package:myrscm/src/screen/SelectedImage.dart';
-import 'package:myrscm/src/screen/billing.dart';
 import 'package:myrscm/src/screen/content_edukasi.dart';
 import 'package:myrscm/src/screen/more_menu.dart';
 import 'package:myrscm/src/screen/page_under_construction.dart';
@@ -46,12 +45,12 @@ class _VerticalLayoutDraftHomeState extends State<VerticalLayoutDraftHome> {
             //title on appbar
             title: Container(
                 padding: EdgeInsets.all(4),
-                height: 37,
-                width: 75,
+                height: 45,
+                width: 90,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage('assets/rscm_kencana_logo.jpg'),
-                      fit: BoxFit.fill
+                      image: AssetImage('assets/myRSCM_horizontal.png'),
+                      fit: BoxFit.scaleDown
                   ),
                 )
             ),

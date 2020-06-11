@@ -1,4 +1,5 @@
 import 'package:myrscm/constant.dart';
+import 'package:myrscm/src/screen/page_loading.dart';
 import 'package:myrscm/src/screen/shared_preferences.dart';
 import 'package:flutter/material.dart';
 class AboutPage extends StatefulWidget {
@@ -7,13 +8,26 @@ class AboutPage extends StatefulWidget {
 }
 
 class _AboutPageState extends State<AboutPage> {
+
+  bool isGetPref = false;
+  @override
+  void initState() {
+    MySharedPreferences sp = MySharedPreferences(context: context);
+    sp.getPatientIsLogin().then((isLogin){
+      print('initState: $isLogin');
+      //if user not login, clear preferences and remove preferences data
+      if(!isLogin) sp.clearData();
+
+      //else get preferences done
+      setState(() => isGetPref = true);
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    //check user session
-    new MySharedPreferences(context: context).checkBoolean();
-
-    return Scaffold(
+    return isGetPref == true ?
+      Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
@@ -129,6 +143,10 @@ class _AboutPageState extends State<AboutPage> {
           ),
         ],
       ),
-    );
+    )
+      :
+      //run loading when get page
+      PageLoading()
+    ;
   }
 }
