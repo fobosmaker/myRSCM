@@ -1,6 +1,7 @@
+import 'package:myrscm/src/model/patient_model.dart';
 import 'package:myrscm/src/screen/page_loading.dart';
-import 'package:myrscm/src/screen/shared_preferences.dart';
-import 'package:myrscm/src/view/layout/draft_home.dart';
+import 'package:myrscm/src/shared_preferences/shared_preferences.dart';
+import 'package:myrscm/src/view/layout/layout_home.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,30 +14,32 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
   bool isRefresh = false;
   bool isGetPref = false;
-  String patientId;
-  String patientName;
-  String patientMRN;
+  PatientModel patient;
 
   @override
   void initState() {
     print('Home initState: run ');
     MySharedPreferences sp = MySharedPreferences(context: context);
+
+    //check user session
+    sp = MySharedPreferences(context: context);
     sp.getPatientIsLogin().then((isLogin){
       print('initState: $isLogin');
-      if(isLogin){
-        sp.getPatientMRN().then((patientMRN){
-          print('initstate: $patientMRN');
-          this.patientMRN = patientMRN;
-          if(patientMRN != null){
-            sp.getPatientName().then((patientName){
-              this.patientName = patientName;
-              print('initstate: $patientName');
-              //reload state
-              setState(() => isGetPref = true);
-            });
-          } else sp.clearData();
+
+      //if user not login, clear preferences and remove preferences data
+      if(!isLogin) sp.clearData();
+      else {
+
+        //if user is login but no data, clear preferences and remove
+        sp.getPatientPref().then((patient){
+          if(patient == null) sp.clearData();
+          else {
+            this.patient = patient;
+            setState(() => isGetPref = true);
+          }
         });
-      } else sp.clearData();
+
+      }
     });
     super.initState();
   }
@@ -44,7 +47,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     print('Home build: run ');
-    return isGetPref == true ? VerticalLayoutDraftHome(patientMRN,patientName) : PageLoading();
+    return isGetPref == true ? VerticalLayoutDraftHome(patient) : PageLoading();
   }
 
   Future<Null> refresh() async {

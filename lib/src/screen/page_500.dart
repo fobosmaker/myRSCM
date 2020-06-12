@@ -9,7 +9,6 @@ class Page500 extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: defaultAppbarColor,
-        //title: Text('Oops...', style: TextStyle(color: defaultAppbarContentColor)),
       ),
       body: Center(
         child: Column(
@@ -51,33 +50,6 @@ class Page500 extends StatelessWidget {
                     )
                 )
             ),
-            /*Container(
-                color: Colors.white,
-                width: MediaQuery.of(context).size.width,
-                alignment: Alignment.center,
-                child: FlatButton.icon(onPressed: (){
-                  Navigator.pop(context);
-                }, icon: Icon(Icons.refresh, color: defaultAppbarColor,), label: Text('Refresh', style: TextStyle(
-                    color: defaultAppbarColor)))
-            )*/
-           /* InkWell(
-              onTap: (){
-                Navigator.pop(context);
-              },
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                    color: defaultAppbarColor,
-                    borderRadius: BorderRadius.circular(25)
-                ),
-                child: Text(
-                  'Kembali',
-                  style: TextStyle(color: defaultAppbarContentColor, letterSpacing: 0.5, fontWeight: FontWeight.w300),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            )*/
             InkWell(
               onTap: (){
                 Navigator.pop(context);

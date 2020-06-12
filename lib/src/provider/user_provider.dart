@@ -35,7 +35,7 @@ class UserProvider{
           throw ('Data not found...');
         } else {
           print('UserProvider login response: data ada');
-          return new LoginModel( statusCode: jsonData['statusCode'], message: jsonData['message'], data: new PatientModel(patientId: jsonData['data']['patient_id'], patientMRN: jsonData['data']['patient_mrn'], patientName: jsonData['data']['patient_nm']) );
+          return new LoginModel( statusCode: jsonData['statusCode'], message: jsonData['message'], data: new PatientModel(patientId: jsonData['data']['patient_id'], patientMRN: jsonData['data']['patient_mrn'], patientName: jsonData['data']['patient_nm'], patientAddress: jsonData['data']['address'], patientBirthdayDate: jsonData['data']['ttl'], patientGender: jsonData['data']['gender'], patientPhone: jsonData['data']['phone']) );
         }
       } else{
         print('UserProvider login response error');

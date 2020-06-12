@@ -1,4 +1,5 @@
 import 'package:myrscm/constant.dart';
+import 'package:myrscm/src/model/patient_model.dart';
 import 'package:myrscm/src/screen/SelectedImage.dart';
 import 'package:myrscm/src/screen/content_edukasi.dart';
 import 'package:myrscm/src/screen/more_menu.dart';
@@ -10,16 +11,18 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 class VerticalLayoutDraftHome extends StatefulWidget {
 
-  final String medicalRecordNumber;
-  final String name;
-  VerticalLayoutDraftHome(this.medicalRecordNumber, this.name);
+  final PatientModel patient;
+  VerticalLayoutDraftHome(this.patient);
 
   @override
-  _VerticalLayoutDraftHomeState createState() => _VerticalLayoutDraftHomeState();
+  _VerticalLayoutDraftHomeState createState() => _VerticalLayoutDraftHomeState(patient);
 
 }
 
 class _VerticalLayoutDraftHomeState extends State<VerticalLayoutDraftHome> {
+
+  final PatientModel patient;
+  _VerticalLayoutDraftHomeState(this.patient);
 
   @override
   void initState() {
@@ -71,7 +74,7 @@ class _VerticalLayoutDraftHomeState extends State<VerticalLayoutDraftHome> {
               //card profile pasien
               Container(
                   padding: EdgeInsets.fromLTRB(0,0,0,5),
-                  child: CardProfile(widget.medicalRecordNumber, widget.name)
+                  child: CardProfile(patient.patientMRN, patient.patientName)
               ),
 
               //Menu
@@ -204,6 +207,7 @@ class _VerticalLayoutDraftHomeState extends State<VerticalLayoutDraftHome> {
                 child: InkWell(
                   onTap: (){
                     print('jadwal dokter klik');
+                    //Navigator.pushNamed(context, '/jadwal_dokter');
                     _launchInBrowser('https://www.rscm.co.id/index.php?XP_webview_menu=&pageid=254&title=Jadwal%20Dokter%20RSCM%20Kencana');
                   },
                   child: Stack(
@@ -247,17 +251,6 @@ class _VerticalLayoutDraftHomeState extends State<VerticalLayoutDraftHome> {
                   padding: EdgeInsets.only(left:5, bottom: 5),
                   child: Text('Ikuti terus promo menarik kami', style: TextStyle(fontSize: 15,fontWeight: FontWeight.w300),),
                 ),
-                /*trailing: Container(
-                    child: InkWell(
-                      child: Icon(
-                        Icons.arrow_forward_ios,
-                        color: defaultAppbarColor,
-                      ),
-                      onTap: (){
-                        print('More Promosi');
-                      },
-                    )
-                ),*/
               ),
               Container(
                 padding: EdgeInsets.fromLTRB(15, 5, 0, 20),

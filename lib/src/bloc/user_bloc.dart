@@ -11,7 +11,7 @@ class UserBLoc{
     print('fetchDataLogin: run');
     try{
       LoginModel data = await _repository.login(username, password);
-      print('fetchDataLogin: ${data.statusCode}, patient_id: ${data.data.patientId}, patient_name: ${data.data.patientName}, patient_mrn: ${data.data.patientMRN}');
+      print('fetchDataLogin: ${data.statusCode}, patient_id: ${data.data.patientId}, patient_name: ${data.data.patientName}, patient_mrn: ${data.data.patientMRN}, patientAddress: ${data.data.patientAddress}, patientGender: ${data.data.patientGender}, patientTTL: ${data.data.patientBirthdayDate}, patientPhone: ${data.data.patientPhone}');
       _inDataLogin.add(data);
     } catch(e) {
       print('fetchDataLogin: error found');

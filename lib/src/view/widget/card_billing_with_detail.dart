@@ -4,19 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class WidgetCardBillingDetail extends StatefulWidget {
-  List<TabModel> data;
-  String totalSummary;
+  final List<TabModel> data;
+  final String totalSummary;
 
   WidgetCardBillingDetail(this.data, this.totalSummary);
 
   @override
-  _WidgetCardBillingDetailState createState() => _WidgetCardBillingDetailState();
+  _WidgetCardBillingDetailState createState() => _WidgetCardBillingDetailState(data,totalSummary);
 }
 
 class _WidgetCardBillingDetailState extends State<WidgetCardBillingDetail> {
 
   NumberFormat formatter = new NumberFormat("#,###");
-
+  final List<TabModel> data;
+  final String totalSummary;
+  
+  _WidgetCardBillingDetailState(this.data, this.totalSummary);
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -41,34 +45,18 @@ class _WidgetCardBillingDetailState extends State<WidgetCardBillingDetail> {
                       fontSize: 14.0,
                       fontWeight: FontWeight.w800,
                       color: Colors.blueAccent,
-                    ))),
+                    )))
                   ],
                   rows: generateTableContent()
-              ),
-            ]),
-        /*Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: generateTindakan(),
-          )*/
-
-     /* Card(
-          elevation:3,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child:
-    )*/
+              )
+            ])
     );
   }
 
   List<DataRow> generateTableContent(){
     List<DataRow> list = [];
-    int total = 0;
-    for(var i = 0; i < widget.data.length; i++) {
-      TabModel row = widget.data[i];
-      total += 0;
+    for(var i = 0; i < data.length; i++) {
+      TabModel row = data[i];
       list.add(DataRow(cells: [
         DataCell(Text(row.content)),
         DataCell(Text('Rp ${formatter.format(int.parse(row.total))}')),
@@ -81,88 +69,12 @@ class _WidgetCardBillingDetailState extends State<WidgetCardBillingDetail> {
         fontWeight: FontWeight.w600,
         color: Colors.redAccent,
       ))),
-      DataCell(Text('Rp ${formatter.format(int.parse(widget.totalSummary))}',style: TextStyle(
+      DataCell(Text('Rp ${formatter.format(int.parse(totalSummary))}',style: TextStyle(
         fontSize: 14.0,
         fontWeight: FontWeight.w800,
         color: Colors.black,
       ))),
     ]));
-
-    return list;
-  }
-
-  List<Widget> generateTindakan(){
-    List<Widget> list = new List<Widget>();
-    //int total = 0;
-    for(var i = 0; i < widget.data.length; i++){
-      TabModel row = widget.data[i];
-      //total+=0;
-      list.add(
-          Container(
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: ListTile(
-                    title: Text(
-                        row.content,
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.blueAccent,
-                        )
-                    ),
-                    subtitle: Text(
-                      'Tindakan / Pemeriksaan di ${row.content}',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 10
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                    flex: 1,
-                    child: Center(child: Text('IDR ${row.total}'))
-                )
-              ],
-            ),
-          )
-      );
-    }
-    //add total to list
-    list.add(
-        Container(
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: ListTile(
-                  title: Text(
-                      'Total',
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.blueAccent,
-                      )
-                  ),
-                  subtitle: Text(
-                    'Total tagihan anda',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 10
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                  flex: 1,
-                  child: Center(child: Text('IDR ${widget.totalSummary}'))
-              )
-            ],
-          ),
-        )
-    );
     return list;
   }
 }

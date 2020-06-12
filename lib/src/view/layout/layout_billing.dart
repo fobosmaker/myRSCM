@@ -21,18 +21,20 @@ class VerticalLayoutBilling extends StatefulWidget {
   VerticalLayoutBilling(this.data);
 
   @override
-  _VerticalLayoutBillingState createState() => _VerticalLayoutBillingState();
+  _VerticalLayoutBillingState createState() => _VerticalLayoutBillingState(data);
 }
 
 class _VerticalLayoutBillingState extends State<VerticalLayoutBilling> with SingleTickerProviderStateMixin {
-
+  final BillingModel data;
   TabController controller;
   NumberFormat formatter = new NumberFormat("#,###");
   int tabLength;
+  
+  _VerticalLayoutBillingState(this.data);
 
   @override
   void initState() {
-    tabLength = widget.data.data.tab.length;
+    tabLength = data.data.tab.length;
     controller = new TabController(length: tabLength, vsync: this);
     print('tablength $tabLength');
     super.initState();
@@ -59,7 +61,7 @@ class _VerticalLayoutBillingState extends State<VerticalLayoutBilling> with Sing
               SliverList(
                 delegate: SliverChildListDelegate([
                   Container(padding: EdgeInsets.fromLTRB(15, 20, 0, 0), child: Text('Rangkuman', style: TextStyle(fontSize: 18,fontWeight: FontWeight.w700),),),
-                  Container(padding: EdgeInsets.fromLTRB(15, 10, 0, 10), child: Text('Poin-poin infromasi mengenai tagihan anda', style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300),),),
+                  Container(padding: EdgeInsets.fromLTRB(15, 10, 0, 10), child: Text('Poin-poin informasi mengenai tagihan anda', style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300),),),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Card(
@@ -73,9 +75,9 @@ class _VerticalLayoutBillingState extends State<VerticalLayoutBilling> with Sing
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
-                                  CirclePointDetailBilling(title: 'Total', content: 'Rp ${formatter.format(int.parse(widget.data.data.totalSummary))}', icon: Icons.receipt, color: Colors.blueAccent),
-                                  CirclePointDetailBilling(title: 'Deposit', content: 'Rp ${formatter.format(int.parse(widget.data.data.totalDeposit))}', icon: Icons.arrow_upward, color: Colors.greenAccent),
-                                  CirclePointDetailBilling(title: 'Tagihan', content: 'Rp ${formatter.format(int.parse(widget.data.data.totalTagihan))}', icon: Icons.arrow_downward, color: Colors.deepOrangeAccent),
+                                  CirclePointDetailBilling(title: 'Total', content: 'Rp ${formatter.format(int.parse(data.data.totalSummary))}', icon: Icons.receipt, color: Colors.blueAccent),
+                                  CirclePointDetailBilling(title: 'Deposit', content: 'Rp ${formatter.format(int.parse(data.data.totalDeposit))}', icon: Icons.arrow_upward, color: Colors.greenAccent),
+                                  CirclePointDetailBilling(title: 'Tagihan', content: 'Rp ${formatter.format(int.parse(data.data.totalTagihan))}', icon: Icons.arrow_downward, color: Colors.deepOrangeAccent),
                                 ],
                               ),
                             ),
@@ -83,7 +85,7 @@ class _VerticalLayoutBillingState extends State<VerticalLayoutBilling> with Sing
                                 child: ExpansionTile(
                                   title: Text('More detail'),
                                   children: <Widget>[
-                                    WidgetCardBillingDetail(widget.data.data.tab, widget.data.data.totalSummary),
+                                    WidgetCardBillingDetail(data.data.tab, data.data.totalSummary),
                                   ],
                                 )
                             ),
@@ -92,7 +94,7 @@ class _VerticalLayoutBillingState extends State<VerticalLayoutBilling> with Sing
                     ),
                   ),
                   Container(padding: EdgeInsets.fromLTRB(15, 20, 0, 0), child: Text('Detail Tagihan', style: TextStyle(fontSize: 18,fontWeight: FontWeight.w700),),),
-                  Container(padding: EdgeInsets.fromLTRB(15, 10, 0, 10), child: Text('Rincian detil dari poin-poin informasi tagihan anda', style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300),),),
+                  Container(padding: EdgeInsets.fromLTRB(15, 10, 0, 10), child: Text('Rincian detail dari poin-poin informasi tagihan anda', style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300),),),
                 ]),
               ),
               SliverPersistentHeader(
@@ -100,7 +102,7 @@ class _VerticalLayoutBillingState extends State<VerticalLayoutBilling> with Sing
                     TabBar(
                       isScrollable: true,
                       controller: controller,
-                      tabs: generateTabHeader(widget.data.data.tab),
+                      tabs: generateTabHeader(data.data.tab),
                       indicatorColor: Colors.red,
                     )
                 ),
@@ -110,7 +112,7 @@ class _VerticalLayoutBillingState extends State<VerticalLayoutBilling> with Sing
           },
           body: TabBarView(
               controller: controller,
-              children: generateTabView(widget.data.data.tab),
+              children: generateTabView(data.data.tab),
             ),
       )
           :
@@ -119,7 +121,7 @@ class _VerticalLayoutBillingState extends State<VerticalLayoutBilling> with Sing
         scrollDirection: Axis.vertical,
         children: <Widget>[
           Container(padding: EdgeInsets.fromLTRB(15, 20, 0, 0), child: Text('Rangkuman', style: TextStyle(fontSize: 18,fontWeight: FontWeight.w700),),),
-          Container(padding: EdgeInsets.fromLTRB(15, 10, 0, 10), child: Text('Poin-poin infromasi mengenai tagihan anda', style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300),),),
+          Container(padding: EdgeInsets.fromLTRB(15, 10, 0, 10), child: Text('Poin-poin informasi mengenai tagihan anda', style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300),),),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: Card(
@@ -133,9 +135,9 @@ class _VerticalLayoutBillingState extends State<VerticalLayoutBilling> with Sing
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          CirclePointDetailBilling(title: 'Total', content: 'Rp ${formatter.format(int.parse(widget.data.data.totalSummary))}', icon: Icons.receipt, color: Colors.blueAccent),
-                          CirclePointDetailBilling(title: 'Deposit', content: 'Rp ${formatter.format(int.parse(widget.data.data.totalDeposit))}', icon: Icons.arrow_upward, color: Colors.greenAccent),
-                          CirclePointDetailBilling(title: 'Tagihan', content: 'Rp ${formatter.format(int.parse(widget.data.data.totalTagihan))}', icon: Icons.arrow_downward, color: Colors.deepOrangeAccent),
+                          CirclePointDetailBilling(title: 'Total', content: 'Rp ${formatter.format(int.parse(data.data.totalSummary))}', icon: Icons.receipt, color: Colors.blueAccent),
+                          CirclePointDetailBilling(title: 'Deposit', content: 'Rp ${formatter.format(int.parse(data.data.totalDeposit))}', icon: Icons.arrow_upward, color: Colors.greenAccent),
+                          CirclePointDetailBilling(title: 'Tagihan', content: 'Rp ${formatter.format(int.parse(data.data.totalTagihan))}', icon: Icons.arrow_downward, color: Colors.deepOrangeAccent),
                         ],
                       ),
                     ),
@@ -270,7 +272,7 @@ class _HorizontalLayoutBillingState extends State<HorizontalLayoutBilling> with 
                     delegate: SliverChildListDelegate([
                       // Container(padding: EdgeInsets.all(10), child: Text('Rangkuman:'),),
                       // WidgetCardBillingDetail(dataTabModel),
-                      //WidgetCardBillingStatus(widget.data.paid,widget.data.unpaid),
+                      //WidgetCardBillingStatus(data.paid,data.unpaid),
                       Container(padding: EdgeInsets.all(10), child: Text('Detail Tagihan:'),),
                     ]),
                   ),
@@ -336,4 +338,3 @@ class _HorizontalLayoutBillingState extends State<HorizontalLayoutBilling> with 
     return list;
   }
 }
-

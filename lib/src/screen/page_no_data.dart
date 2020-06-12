@@ -22,20 +22,3 @@ class _PageNoDataState extends State<PageNoData> {
     );
   }
 }
-/*
-
-
-class PageNoData extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: defaultAppbarColor,
-        //title: Text('Oops', style: TextStyle(color: defaultAppbarContentColor)),
-      ),
-      body: WidgetNoData(),
-    );
-  }
-}*/

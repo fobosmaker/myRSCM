@@ -1,6 +1,6 @@
 import 'package:myrscm/constant.dart';
 import 'package:myrscm/src/screen/page_loading.dart';
-import 'package:myrscm/src/screen/shared_preferences.dart';
+import 'package:myrscm/src/shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 class AboutPage extends StatefulWidget {
   @override

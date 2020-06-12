@@ -1,8 +1,9 @@
 import 'package:myrscm/src/bloc/billing_bloc.dart';
+import 'package:myrscm/src/model/patient_model.dart';
 import 'package:myrscm/src/screen/page_500.dart';
 import 'package:myrscm/src/screen/page_loading.dart';
 import 'package:myrscm/src/screen/page_no_data.dart';
-import 'package:myrscm/src/screen/shared_preferences.dart';
+import 'package:myrscm/src/shared_preferences/shared_preferences.dart';
 import 'package:myrscm/src/view/layout/layout_billing.dart';
 import 'package:myrscm/src/view/widget/widget_circular_progress.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class BillingPage extends StatefulWidget {
 class _BillingPageState extends State<BillingPage> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
   final bloc = BillingBloc();
-  String patientId;
+  PatientModel patient;
   bool isLogin = false;
   bool isGetPref = false;
 
@@ -24,17 +25,25 @@ class _BillingPageState extends State<BillingPage> {
     print('billing initState: run');
     //if user login
     MySharedPreferences sp = MySharedPreferences(context: context);
+    //check user session
+    sp = MySharedPreferences(context: context);
     sp.getPatientIsLogin().then((isLogin){
       print('initState: $isLogin');
-      if(isLogin){
-        sp.getPatientId().then((patientId){
-          print('initstate: $patientId');
-          if(patientId != null){
-            this.patientId = patientId;
+
+      //if user not login, clear preferences and remove preferences data
+      if(!isLogin) sp.clearData();
+      else {
+
+        //if user is login but no data, clear preferences and remove
+        sp.getPatientPref().then((patient){
+          if(patient == null) sp.clearData();
+          else {
+            this.patient = patient;
             setState(() => isGetPref = true);
-          } else sp.clearData();
+          }
         });
-      } else sp.clearData();
+
+      }
     });
     super.initState();
   }
@@ -57,7 +66,7 @@ class _BillingPageState extends State<BillingPage> {
     return Scaffold(
       body: isGetPref == true ?
       StreamBuilder(
-          initialData: bloc.fetchDataBilling(patientId),
+          initialData: bloc.fetchDataBilling(patient.patientId),
           stream: bloc.dataBilling,
           builder: (context,AsyncSnapshot snapshot){
             if(snapshot.connectionState == ConnectionState.active){

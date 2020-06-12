@@ -40,10 +40,10 @@ class BillingProvider{
           print('getDataBiling response: data ada');
           return new BillingModel( statusCode: jsonData['statusCode'], message: jsonData['message'],  data: convertGetBillingData(jsonData['data']) );
         }
-      } else throw Exception('Response error from server');
+      } else throw('Response error from server');
     } catch (e){
       print('getDataBilling: failure');
-      throw Exception(e);
+      throw(e);
     }
   }
 
@@ -109,10 +109,10 @@ class BillingProvider{
           print('getMoreBillingDetail: data ada');
           return new BillingDataMoreModel(statusCode: jsonData['statusCode'], message: jsonData['message'],  data: getBillingDetail(jsonData['data']) );
         }
-      } else throw Exception('Response error from server');
+      } else throw('Response error from server');
     } catch (e){
       print('getMoreBillingDetail: error');
-      throw Exception(e);
+      throw(e);
     }
   }
 }

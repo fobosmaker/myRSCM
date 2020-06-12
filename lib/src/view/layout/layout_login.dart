@@ -2,7 +2,7 @@ import 'package:myrscm/constant.dart';
 import 'package:myrscm/src/bloc/user_bloc.dart';
 import 'package:myrscm/src/model/login_model.dart';
 import 'package:myrscm/src/model/patient_model.dart';
-import 'package:myrscm/src/screen/shared_preferences.dart';
+import 'package:myrscm/src/shared_preferences/shared_preferences.dart';
 import 'package:myrscm/src/screen/verification.dart';
 import 'package:myrscm/src/view/widget/form_input.dart';
 import 'package:myrscm/src/view/widget/widget_circular_progress.dart';

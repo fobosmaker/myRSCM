@@ -82,8 +82,7 @@ class _VerificationPageState extends State<VerificationPage> {
                                   LoginModel data = snapshot.data;
                                   if(data.statusCode == "200"){
                                     PatientModel patient = data.data;
-                                    print('loginResult: patient_id: ${patient.patientId}, patient_name: ${patient.patientName}, patient_mrn: ${patient.patientMRN}}');
-
+                                    //print('loginResult: patient_id: ${patient.patientId}, patient_name: ${patient.patientName}, patient_mrn: ${patient.patientMRN}}');
                                     //add callback
                                     WidgetsBinding.instance.addPostFrameCallback((_){
                                       setState(() {
