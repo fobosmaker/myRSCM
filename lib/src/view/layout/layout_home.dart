@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:myrscm/constant.dart';
 import 'package:myrscm/src/model/patient_model.dart';
 import 'package:myrscm/src/screen/SelectedImage.dart';
@@ -8,7 +9,7 @@ import 'package:myrscm/src/view/widget/card_home.dart';
 import 'package:myrscm/src/view/widget/card_profile.dart';
 import 'package:myrscm/src/view/widget/circle_button_menu_home.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:myrscm/src/view/widget/widget_logo.dart';
 class VerticalLayoutDraftHome extends StatefulWidget {
 
   final PatientModel patient;
@@ -43,20 +44,9 @@ class _VerticalLayoutDraftHomeState extends State<VerticalLayoutDraftHome> {
             pinned: true,
             //set icon on left side
             leading: Container(),
-            //expandedHeight: 200,
             centerTitle: true,
             //title on appbar
-            title: Container(
-                padding: EdgeInsets.all(4),
-                height: 45,
-                width: 90,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage('assets/myRSCM_horizontal.png'),
-                      fit: BoxFit.scaleDown
-                  ),
-                )
-            ),
+            title: WidgetLogo(25),
             //set icon on right side
             actions: <Widget>[
               InkWell(
@@ -70,7 +60,6 @@ class _VerticalLayoutDraftHomeState extends State<VerticalLayoutDraftHome> {
           ),
           SliverList(
             delegate: SliverChildListDelegate([
-
               //card profile pasien
               Container(
                   padding: EdgeInsets.fromLTRB(0,0,0,5),
@@ -207,8 +196,8 @@ class _VerticalLayoutDraftHomeState extends State<VerticalLayoutDraftHome> {
                 child: InkWell(
                   onTap: (){
                     print('jadwal dokter klik');
-                    //Navigator.pushNamed(context, '/jadwal_dokter');
-                    _launchInBrowser('https://www.rscm.co.id/index.php?XP_webview_menu=&pageid=254&title=Jadwal%20Dokter%20RSCM%20Kencana');
+                    Navigator.pushNamed(context, '/jadwal_dokter');
+                    //_launchInBrowser('https://www.rscm.co.id/index.php?XP_webview_menu=&pageid=254&title=Jadwal%20Dokter%20RSCM%20Kencana');
                   },
                   child: Stack(
                     children: <Widget>[
@@ -294,18 +283,5 @@ class _VerticalLayoutDraftHomeState extends State<VerticalLayoutDraftHome> {
         ],
       ),
     );
-  }
-
-  Future<void> _launchInBrowser(String url) async {
-    if (await canLaunch(url)) {
-      await launch(
-        url,
-        forceSafariVC: false,
-        forceWebView: false,
-        //headers: <String, String>{'my_header_key': 'my_header_value'},
-      );
-    } else {
-      throw 'Could not launch $url';
-    }
   }
 }

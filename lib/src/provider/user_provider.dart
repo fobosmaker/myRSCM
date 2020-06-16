@@ -45,4 +45,16 @@ class UserProvider{
       throw (e);
     }
   }
+
+  /*
+  * Map data for register
+  * {
+  "user_nm":"UMSI",
+  "key":"091ae7a29c4795860f69b4077e8b432c",
+  "patient_id": "1003",
+  "username": "tes",
+  "password": "tes",
+  "fungsi":"getRegisApps"
+}
+  * */
 }

@@ -6,14 +6,16 @@ import '../../constant.dart';
 class JadwalDokterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new WebviewScaffold(
+    return WebviewScaffold(
       url: "https://www.rscm.co.id/index.php?XP_webview_menu=&pageid=254&title=Jadwal%20Dokter%20RSCM%20Kencana",
       appBar: new AppBar(
         title: new Text("Jadwal Dokter Kencana"),
         centerTitle: true,
         backgroundColor: defaultAppbarColor,
       ),
+      ignoreSSLErrors: true,
     );
   }
 }
+
 

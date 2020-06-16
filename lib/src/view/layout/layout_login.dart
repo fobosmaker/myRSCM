@@ -3,7 +3,6 @@ import 'package:myrscm/src/bloc/user_bloc.dart';
 import 'package:myrscm/src/model/login_model.dart';
 import 'package:myrscm/src/model/patient_model.dart';
 import 'package:myrscm/src/shared_preferences/shared_preferences.dart';
-import 'package:myrscm/src/screen/verification.dart';
 import 'package:myrscm/src/view/widget/form_input.dart';
 import 'package:myrscm/src/view/widget/widget_circular_progress.dart';
 import 'package:myrscm/src/view/widget/widget_logo.dart';
@@ -33,7 +32,7 @@ class _HorizontalLayoutStateLogin extends State<HorizontalLayoutLogin> {
           Expanded(
             flex: 1,
             child: Container(
-              child: WidgetLogo(),
+              child: WidgetLogo(70),
             ),
           ),
           Expanded(
@@ -50,7 +49,8 @@ class _HorizontalLayoutStateLogin extends State<HorizontalLayoutLogin> {
                         FormInputWidget(label: "Password", controller: password, isPassword: true),
                         ListTile(
                           onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => VerificationPage(flag: 0)));
+
+                            Navigator.pushNamed(context, '/verification',arguments: 0);
                           },
                           contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                           leading: Icon(Icons.security),
@@ -194,7 +194,7 @@ class _HorizontalLayoutStateLogin extends State<HorizontalLayoutLogin> {
                         ),
                         InkWell(
                           onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => VerificationPage(flag: 1)));
+                            Navigator.pushNamed(context, '/verification',arguments: 1);
                           },
                           child: Container(
                             margin: EdgeInsets.symmetric(horizontal: 20),
@@ -254,13 +254,10 @@ class _VerticalLayoutStateLogin extends State<VerticalLayoutLogin> {
         ),
         child:  SafeArea(
           child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: 50,),
-              Center(
-                child: Image(image: AssetImage('assets/myRSCM_horizontal.png'),width: 250, height: 125, fit: BoxFit.scaleDown,alignment: Alignment.centerLeft),
-              ),
+              WidgetLogo(70),
               SizedBox(height: 50,),
               Expanded(
                 child: Container(
@@ -279,7 +276,8 @@ class _VerticalLayoutStateLogin extends State<VerticalLayoutLogin> {
                           FormInputWidget(label: "Password", controller: password, isPassword: true),
                           ListTile(
                             onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => VerificationPage(flag: 0)));
+                              //Navigator.push(context, MaterialPageRoute(builder: (context) => VerificationPage(flag: 0)));
+                              Navigator.pushNamed(context,'/verification',arguments: 0);
                             },
                             contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                             leading: Icon(Icons.security),
@@ -368,7 +366,8 @@ class _VerticalLayoutStateLogin extends State<VerticalLayoutLogin> {
                           ),
                           InkWell(
                             onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => VerificationPage(flag: 1)));
+                              //Navigator.push(context, MaterialPageRoute(builder: (context) => VerificationPage(flag: 1)));
+                              Navigator.pushNamed(context,'/verification',arguments: 1);
                             },
                             child: Container(
                               margin: EdgeInsets.symmetric(horizontal: 20),

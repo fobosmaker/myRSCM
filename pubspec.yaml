@@ -28,8 +28,6 @@ dependencies:
   rxdart: ^0.23.1
   photo_view: ^0.9.2
   flutter_webview_plugin: ^0.3.11
-  webview_flutter: ^0.3.21
-  url_launcher: ^5.4.7
   intl: ^0.16.1
   flutter_staggered_grid_view: ^0.3.0
   flutter_swiper: ^1.1.6
@@ -43,12 +41,12 @@ dev_dependencies:
 
 #icons launcher
 flutter_icons:
-  image_path: "assets/myRSCM.png"
+  image_path: "assets/rscmKu_love_logo.png"
   android: "launcher_icon" # can specify file name here e.g. "ic_launcher"
   ios: true # can specify file name here e.g. "My-Launcher-Icon"
 #app name
 flutter_launcher_name:
-  name: "myRSCM"
+  name: "RSCMKu"
 
 
 # For information on the generic Dart part of this file, see the
@@ -67,8 +65,6 @@ flutter:
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
   assets:
-    - assets/rscm_kencana_logo.jpg
-    - assets/rscm_kencana.jpg
     - assets/medical-billing-illustration.png
     - assets/default_error.png
     - assets/under-construction.png
@@ -92,8 +88,7 @@ flutter:
     - assets/edukasi13.jpeg
     - assets/edukasi14.jpeg
     - assets/edukasi15.jpeg
-    - assets/myRSCM.png
-    - assets/myRSCM_horizontal.png
+    - assets/rscmKu_love_logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

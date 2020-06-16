@@ -15,8 +15,8 @@ import 'package:myrscm/src/view/widget/widget_circular_progress.dart';
 
 class VerificationPage extends StatefulWidget {
 
-  final int flag;
-  VerificationPage({this.flag});
+  //final int flag;
+  //VerificationPage({this.flag});
 
   @override
   _VerificationPageState createState() => _VerificationPageState();
@@ -32,6 +32,7 @@ class _VerificationPageState extends State<VerificationPage> {
 
   @override
   Widget build(BuildContext context) {
+    final int args = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -50,7 +51,7 @@ class _VerificationPageState extends State<VerificationPage> {
             children: <Widget>[
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              child: widget.flag == 0 ?
+              child: args == 0 ?
               Text('Sebelum anda mereset password, kami akan melakukan verifikasi data nomor rekam medik anda kedalam sistem kami untuk memastikan anda merupakan pasien dari RSCM Kencana',style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w300, letterSpacing: 0.5), textAlign: TextAlign.center,)
                   :
               Text('Sebelum anda melakukan registrasi, kami akan melakukan verifikasi data nomor rekam medik anda kedalam sistem kami untuk memastikan anda merupakan pasien dari RSCM Kencana',style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w300, letterSpacing: 0.5), textAlign: TextAlign.center,),
@@ -87,8 +88,9 @@ class _VerificationPageState extends State<VerificationPage> {
                                     WidgetsBinding.instance.addPostFrameCallback((_){
                                       setState(() {
                                         isClick = false;
-                                        if(widget.flag == 0) Navigator.pushNamed(context,'/forgot_password',arguments: patient);
-                                        if(widget.flag == 1) Navigator.pushNamed(context,'/registration',arguments: patient);
+                                        args == 0 ? Navigator.pushNamed(context,'/forgot_password',arguments: patient) : Navigator.pushNamed(context,'/registration',arguments: patient);
+                                        /*if(widget.flag == 0) Navigator.pushNamed(context,'/forgot_password',arguments: patient);
+                                        if(widget.flag == 1) Navigator.pushNamed(context,'/registration',arguments: patient);*/
                                       });
                                     });
                                   } else {

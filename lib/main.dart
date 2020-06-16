@@ -11,6 +11,7 @@ import 'package:myrscm/src/screen/profile.dart';
 import 'package:myrscm/src/screen/register.dart';
 import 'package:myrscm/src/screen/splashscreen.dart';
 import 'package:flutter/material.dart';
+import 'package:myrscm/src/screen/verification.dart';
 
 void main() => runApp(MaterialApp(
   debugShowCheckedModeBanner: false,
@@ -19,8 +20,8 @@ void main() => runApp(MaterialApp(
     //no login
     '/splash': (context) => SplashScreenPage(),
     '/login': (context) => LoginPage(),
-    //'/verification': (context) => VerificationPage(),
-    '/jadwal_dokter': (_) => JadwalDokterPage(),
+    '/verification': (context) => VerificationPage(),
+    '/jadwal_dokter': (context) => JadwalDokterPage(),
     '/forgot_password': (context) => ForgotPasswordResetPage(),
     '/registration': (context) => RegisterPage(),
 
