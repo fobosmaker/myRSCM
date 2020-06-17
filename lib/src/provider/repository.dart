@@ -1,5 +1,6 @@
 import 'package:myrscm/src/model/billing_model.dart';
-import 'package:myrscm/src/model/login_model.dart';
+import 'package:myrscm/src/model/default_model.dart';
+import 'package:myrscm/src/model/verification_model.dart';
 import 'package:myrscm/src/provider/billing_provider.dart';
 import 'package:myrscm/src/provider/user_provider.dart';
 
@@ -8,8 +9,10 @@ class Repository{
   static final billingAPIProvider = BillingProvider();
 
 /*USER API*/
-  //LOGIN
-  Future<LoginModel> login(String username, String password) => userAPIProvider.login(username,password);
+  //Verification
+  Future<VerificationModel> verification(String mrn, String birthdate) => userAPIProvider.verification(mrn,birthdate);
+  //REGISTRASI
+  Future<DefaultModel> registration(String patientId, String username, String password) => userAPIProvider.registrasi(patientId,username,password);
 /*!USER API*/
 
 /*BILLING API*/

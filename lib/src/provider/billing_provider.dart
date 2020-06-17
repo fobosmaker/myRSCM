@@ -27,6 +27,7 @@ class BillingProvider{
       HttpClientResponse response = await req.close();
       print('getDataBilling response: ${response.headers}');
 
+
       String reply = await response.transform(utf8.decoder).join();
       print('getDataBilling response transform: ${reply.toString()}');
 

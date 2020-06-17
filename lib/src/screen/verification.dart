@@ -1,6 +1,7 @@
 import 'package:myrscm/constant.dart';
 import 'package:myrscm/src/bloc/user_bloc.dart';
-import 'package:myrscm/src/model/login_model.dart';
+import 'package:myrscm/src/connectivity/connectivity.dart';
+import 'package:myrscm/src/model/verification_model.dart';
 import 'package:myrscm/src/model/patient_model.dart';
 import 'package:myrscm/src/view/widget/form_input.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,12 @@ class _VerificationPageState extends State<VerificationPage> {
   final tanggalLahir = TextEditingController();
   bool isClick = false;
   final bloc = UserBLoc();
+
+  @override
+  void dispose() {
+    bloc.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,13 +81,13 @@ class _VerificationPageState extends State<VerificationPage> {
                         FormDatePickerWidget(label: "Tanggal Lahir", controller: tanggalLahir),
                         isClick == true ?
                         StreamBuilder(
-                            initialData: bloc.fetchDataLogin(nomorRekamMedik.text,tanggalLahir.text),
+                            initialData: bloc.fetchDataVerification(nomorRekamMedik.text,tanggalLahir.text),
                             stream: bloc.dataLogin,
                             builder: (context, AsyncSnapshot snapshot){
                               if(snapshot.connectionState == ConnectionState.active){
                                 String message;
                                 if(snapshot.hasData) {
-                                  LoginModel data = snapshot.data;
+                                  VerificationModel data = snapshot.data;
                                   if(data.statusCode == "200"){
                                     PatientModel patient = data.data;
                                     //print('loginResult: patient_id: ${patient.patientId}, patient_name: ${patient.patientName}, patient_mrn: ${patient.patientMRN}}');
@@ -89,8 +96,6 @@ class _VerificationPageState extends State<VerificationPage> {
                                       setState(() {
                                         isClick = false;
                                         args == 0 ? Navigator.pushNamed(context,'/forgot_password',arguments: patient) : Navigator.pushNamed(context,'/registration',arguments: patient);
-                                        /*if(widget.flag == 0) Navigator.pushNamed(context,'/forgot_password',arguments: patient);
-                                        if(widget.flag == 1) Navigator.pushNamed(context,'/registration',arguments: patient);*/
                                       });
                                     });
                                   } else {
@@ -122,13 +127,16 @@ class _VerificationPageState extends State<VerificationPage> {
                             :
                         InkWell(
                           onTap: (){
-                            setState(() {
-                              if(_formVerification.currentState.validate()){
-                                setState(() {
-                                  isClick = true;
-                                });
-                              }
-                            });
+                            //close keyboard input
+                            FocusScope.of(context).unfocus();
+                            //check input validation
+                            if (_formVerification.currentState.validate()) {
+                              //check user connection
+                              MyConnectivity().getConnectivity().then((isConnect){
+                                if(!isConnect) Navigator.pushNamed(context, '/no_connection');
+                                else setState(() => isClick = true);
+                              });
+                            }
                           },
                           child: Container(
                             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),

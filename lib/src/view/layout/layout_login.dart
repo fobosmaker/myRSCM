@@ -1,6 +1,7 @@
 import 'package:myrscm/constant.dart';
 import 'package:myrscm/src/bloc/user_bloc.dart';
-import 'package:myrscm/src/model/login_model.dart';
+import 'package:myrscm/src/connectivity/connectivity.dart';
+import 'package:myrscm/src/model/verification_model.dart';
 import 'package:myrscm/src/model/patient_model.dart';
 import 'package:myrscm/src/shared_preferences/shared_preferences.dart';
 import 'package:myrscm/src/view/widget/form_input.dart';
@@ -64,7 +65,7 @@ class _HorizontalLayoutStateLogin extends State<HorizontalLayoutLogin> {
                         ),
                         isClick == true ?
                         StreamBuilder(
-                            initialData: bloc.fetchDataLogin(userName.text,password.text),
+                            initialData: bloc.fetchDataVerification(userName.text,password.text),
                             stream: bloc.dataLogin,
                             builder: (context, AsyncSnapshot snapshot){
                               if(snapshot.connectionState == ConnectionState.active){
@@ -234,6 +235,7 @@ class _VerticalLayoutStateLogin extends State<VerticalLayoutLogin> {
   final password = TextEditingController();
   bool isClick = false;
   final bloc = UserBLoc();
+  String error = '';
 
   @override
   void initState() {
@@ -291,13 +293,13 @@ class _VerticalLayoutStateLogin extends State<VerticalLayoutLogin> {
                           ),
                           isClick == true ?
                           StreamBuilder(
-                            initialData: bloc.fetchDataLogin(userName.text,password.text),
+                            initialData: bloc.fetchDataVerification(userName.text,password.text),
                             stream: bloc.dataLogin,
                             builder: (context, AsyncSnapshot snapshot){
                               if(snapshot.connectionState == ConnectionState.active){
-                                String message;
+                                String message= '';
                                 if(snapshot.hasData) {
-                                  LoginModel data = snapshot.data;
+                                  VerificationModel data = snapshot.data;
                                   if(data.statusCode == "200"){
                                     PatientModel patient = data.data;
                                     print('loginResult: patient_id: ${patient.patientId}, patient_name: ${patient.patientName}, patient_mrn: ${patient.patientMRN}}');
@@ -314,25 +316,30 @@ class _VerticalLayoutStateLogin extends State<VerticalLayoutLogin> {
                                       });
                                     });
                                   } else {
+
                                     print('data error ${data.message}');
-                                    message = data.message;
+                                    //add callback
+                                    WidgetsBinding.instance.addPostFrameCallback((_){
+                                      setState(() {
+                                        isClick = false;
+                                        error = data.message;
+                                      });
+                                    });
                                   }
                                 }
 
                                 //if error come from API
                                 if(snapshot.hasError){
                                   print('layout login ${snapshot.error.toString()}');
-                                  message = snapshot.error.toString();
-                                }
 
-                                //default return generate widget
-                                WidgetsBinding.instance.addPostFrameCallback((_){
-                                  setState(() {
-                                    isClick = false;
-                                    final snackBar = SnackBar(content: Text(message));
-                                    Scaffold.of(context).showSnackBar(snackBar);
+                                  //add callback
+                                  WidgetsBinding.instance.addPostFrameCallback((_){
+                                    setState(() {
+                                      isClick = false;
+                                      error = snapshot.error.toString();
+                                    });
                                   });
-                                });
+                                }
                               }
                               //default run circular progress
                               return Center(child: Padding(
@@ -343,12 +350,16 @@ class _VerticalLayoutStateLogin extends State<VerticalLayoutLogin> {
                               :
                           InkWell(
                             onTap: (){
-                              setState(() {
-                                //check validasi
-                                if (_formLogin.currentState.validate()) {
-                                  isClick = true;
-                                }
-                              });
+                              //close keyboard input
+                              FocusScope.of(context).unfocus();
+                              //check input validation
+                              if (_formLogin.currentState.validate()) {
+                                //check user connection
+                                MyConnectivity().getConnectivity().then((isConnect){
+                                  if(!isConnect) Navigator.pushNamed(context, '/no_connection');
+                                  else setState(() => isClick = true);
+                                });
+                              }
                             },
                             child: Container(
                               margin: EdgeInsets.all(20),
@@ -366,11 +377,10 @@ class _VerticalLayoutStateLogin extends State<VerticalLayoutLogin> {
                           ),
                           InkWell(
                             onTap: (){
-                              //Navigator.push(context, MaterialPageRoute(builder: (context) => VerificationPage(flag: 1)));
                               Navigator.pushNamed(context,'/verification',arguments: 1);
                             },
                             child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 20),
+                              margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
                               padding: EdgeInsets.all(20),
                               decoration: BoxDecoration(
                                   color: Colors.white,
@@ -382,7 +392,19 @@ class _VerticalLayoutStateLogin extends State<VerticalLayoutLogin> {
                                 textAlign: TextAlign.center,
                               ),
                             ),
-                          )
+                          ),
+                          Center(
+                            child: Text(
+                              error,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 13,
+                                  letterSpacing: 0.5,
+                                  fontWeight: FontWeight.w600
+                              )
+                            )
+                          ),
                         ],
                       ),
                     )

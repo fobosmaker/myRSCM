@@ -1,7 +1,7 @@
 import 'package:myrscm/src/model/patient_model.dart';
-class LoginModel{
+class VerificationModel{
   String statusCode;
   String message;
   PatientModel data;
-  LoginModel({this.statusCode, this.message, this.data});
+  VerificationModel({this.statusCode, this.message, this.data});
 }

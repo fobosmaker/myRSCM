@@ -7,6 +7,10 @@ import 'package:myrscm/src/screen/home.dart';
 import 'package:myrscm/src/screen/jadwal_dokter.dart';
 import 'package:myrscm/src/screen/more_menu.dart';
 import 'package:myrscm/src/screen/login.dart';
+import 'package:myrscm/src/screen/page_500.dart';
+import 'package:myrscm/src/screen/page_no_connection.dart';
+import 'package:myrscm/src/screen/page_no_data.dart';
+import 'package:myrscm/src/screen/page_under_construction.dart';
 import 'package:myrscm/src/screen/profile.dart';
 import 'package:myrscm/src/screen/register.dart';
 import 'package:myrscm/src/screen/splashscreen.dart';
@@ -32,6 +36,12 @@ void main() => runApp(MaterialApp(
     '/profile': (context) => ProfilePage(),
     '/billing': (context) => BillingPage(),
     '/about': (context) => AboutPage(),
-    '/change_password': (context) => ChangePasswordPage()
+    '/change_password': (context) => ChangePasswordPage(),
+
+    //additional
+    '/under_construction': (context) => PageUnderConstruction(),
+    '/server_error': (context) => Page500(),
+    '/no_connection': (context) => PageNoConnection(),
+    '/no_data' : (context) => PageNoData()
   },
 ));

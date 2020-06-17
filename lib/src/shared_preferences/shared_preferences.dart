@@ -19,13 +19,13 @@ class MySharedPreferences{
     print('MySharedPreferences: savePatientPref run');
     SharedPreferences pref = await SharedPreferences.getInstance();
     print('MySharedPreferences: savePatientPref data ${data.patientId} ${data.patientName} ${data.patientMRN}');
-    pref.setString(patientId, data.patientId);
-    pref.setString(patientMRN, data.patientMRN);
-    pref.setString(patientName, data.patientName);
-    pref.setString(patientBirthdayDate, data.patientBirthdayDate);
-    pref.setString(patientAddress, data.patientAddress);
-    pref.setString(patientGender, data.patientGender);
-    pref.setString(patientPhone, data.patientPhone);
+    pref.setString(patientId, normalizeInput(data.patientId));
+    pref.setString(patientMRN, normalizeInput(data.patientMRN));
+    pref.setString(patientName, normalizeInput(data.patientName));
+    pref.setString(patientBirthdayDate, normalizeInput(data.patientBirthdayDate));
+    pref.setString(patientAddress, normalizeInput(data.patientAddress));
+    pref.setString(patientGender, normalizeInput(data.patientGender));
+    pref.setString(patientPhone, normalizeInput(data.patientPhone));
     pref.setBool(patientIsLogin, isLogin);
   }
 
@@ -40,6 +40,10 @@ class MySharedPreferences{
     print('MySharedPreferences: getPatientPref run');
     SharedPreferences pref = await SharedPreferences.getInstance();
     return PatientModel(patientId: pref.getString(patientId), patientMRN: pref.getString(patientMRN), patientName: pref.getString(patientName), patientAddress: pref.getString(patientAddress), patientBirthdayDate: pref.getString(patientBirthdayDate), patientGender: pref.getString(patientGender), patientPhone: pref.getString(patientPhone)) ?? null;
+  }
+
+  String normalizeInput(String data){
+    return data == null ? "NULL" : data;
   }
 
   void clearData() async {

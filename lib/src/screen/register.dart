@@ -1,9 +1,13 @@
 import 'package:myrscm/constant.dart';
+import 'package:myrscm/src/bloc/user_bloc.dart';
+import 'package:myrscm/src/connectivity/connectivity.dart';
+import 'package:myrscm/src/model/default_model.dart';
 import 'package:myrscm/src/model/patient_model.dart';
 import 'package:myrscm/src/shared_preferences/shared_preferences.dart';
 import 'package:myrscm/src/view/widget/form_input.dart';
 import 'package:myrscm/src/view/widget/list_tile_profile.dart';
 import 'package:flutter/material.dart';
+import 'package:myrscm/src/view/widget/widget_circular_progress.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -17,6 +21,19 @@ class _RegisterPageState extends State<RegisterPage> {
   final username = TextEditingController();
   final password = TextEditingController();
   final confirmPassword = TextEditingController();
+  bool isClick = false;
+  final bloc = UserBLoc();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    bloc.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,16 +113,70 @@ class _RegisterPageState extends State<RegisterPage> {
                   FormInputWidget(label: "Username", controller: username, isPassword: false),
                   FormInputWidget(label: "Password", controller: password, isPassword: true),
                   FormInputWidget(label: "Konfirmasi Password", controller: confirmPassword, isPassword: true),
+                  isClick == true ?
+                  StreamBuilder(
+                      initialData: bloc.registerUser(args.patientId, username.text, password.text),
+                      stream: bloc.dataRegistration,
+                      builder: (context, AsyncSnapshot snapshot){
+                        if(snapshot.connectionState == ConnectionState.active){
+                          String message;
+                          if(snapshot.hasData) {
+                            DefaultModel data = snapshot.data;
+                            if(data.data.status == "200"){
+                              print('register success');
+                              //add callback
+                              WidgetsBinding.instance.addPostFrameCallback((_){
+                                setState(() {
+                                  isClick = false;
+                                  //set session for user
+                                  MySharedPreferences sp = MySharedPreferences(context: this.context);
+                                  sp.savePatientPref(args, true);
+                                  //move to home
+                                  Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+                                });
+                              });
+                            } else {
+                              print('data error ${data.data.message}');
+                              message = data.data.message;
+                            }
+                          }
+
+                          //if error come from API
+                          if(snapshot.hasError){
+                            print('layout login ${snapshot.error.toString()}');
+                            message = snapshot.error.toString();
+                            //default return generate widget
+                            WidgetsBinding.instance.addPostFrameCallback((_){
+                              setState(() {
+                                isClick = false;
+                                final snackBar = SnackBar(content: Text(message));
+                                Scaffold.of(context).showSnackBar(snackBar);
+                              });
+                            });
+                          }
+                        }
+                        //default run circular progress
+                        return Center(child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: WidgetCircularProgress(),
+                        ));
+                      })
+                  :
                   InkWell(
                     onTap: (){
+                      //close keyboard input
+                      FocusScope.of(context).unfocus();
+                      //check input validation
                       if(_formRegistration.currentState.validate()){
                         if(password.text == confirmPassword.text){
-                          MySharedPreferences sp = MySharedPreferences(context: this.context);
-                          sp.savePatientPref(args, true);
-                          Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+                            //check user connection
+                            MyConnectivity().getConnectivity().then((isConnect){
+                              if(!isConnect) Navigator.pushNamed(context, '/no_connection');
+                              else setState(() => isClick = true);
+                            });
                         } else {
-                          final snackBar = SnackBar(content: Text("Your password and confirm password doesn't match!"));
-                          globalScaffoldKey.currentState.showSnackBar(snackBar);
+                          print("password and confirm password doesn't match!");
+                          globalScaffoldKey.currentState.showSnackBar(SnackBar(content: Text("Your password and confirm password doesn't match!")));
                         }
                       }
                     },
@@ -122,7 +193,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                  ),
+                  )
                 ],
               ),
             )

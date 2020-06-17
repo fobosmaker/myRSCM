@@ -110,8 +110,7 @@ class _MoreMenuPageState extends State<MoreMenuPage> {
       )
         :
         //run loading when get page
-        PageLoading()
-    ;
+        PageLoading();
   }
 
   Future<void> _showMyDialog() async {
@@ -120,11 +119,18 @@ class _MoreMenuPageState extends State<MoreMenuPage> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Keluar'),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))
+          ),
+          title: Text('Keluar', style: TextStyle(color: defaultAppbarColor, fontWeight: FontWeight.w700)),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Apakah anda yakin ingin keluar dari aplikasi ini?'),
+                Text('Apakah anda yakin ingin keluar dari aplikasi ini?',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w300
+                  )
+                ),
               ],
             ),
           ),
@@ -132,7 +138,7 @@ class _MoreMenuPageState extends State<MoreMenuPage> {
             FlatButton(
               child: Text(
                   'Batal',
-                style: TextStyle(color: defaultAppbarColor)
+                style: TextStyle(color: defaultAppbarColor, fontWeight: FontWeight.w500)
               ),
               onPressed: () {
                 print('cancel clicked');
@@ -142,7 +148,7 @@ class _MoreMenuPageState extends State<MoreMenuPage> {
             FlatButton(
               child: Text(
                   'Keluar',
-                  style: TextStyle(color: defaultAppbarColor)
+                  style: TextStyle(color: defaultAppbarColor, fontWeight: FontWeight.w500)
               ),
               onPressed: () {
                 print('logout clicked');

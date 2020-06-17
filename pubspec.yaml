@@ -34,6 +34,7 @@ dependencies:
   shared_preferences: ^0.5.7+3
   flutter_launcher_icons: ^0.7.5
   flutter_launcher_name: ^0.0.1
+  connectivity: ^0.4.8+6
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +70,7 @@ flutter:
     - assets/default_error.png
     - assets/under-construction.png
     - assets/no_data.png
+    - assets/no_connection.png
     - assets/doctor-appointment.png
     - assets/promo1.jpeg
     - assets/promo2.jpeg

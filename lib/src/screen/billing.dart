@@ -1,4 +1,5 @@
 import 'package:myrscm/src/bloc/billing_bloc.dart';
+import 'package:myrscm/src/connectivity/connectivity.dart';
 import 'package:myrscm/src/model/patient_model.dart';
 import 'package:myrscm/src/screen/page_500.dart';
 import 'package:myrscm/src/screen/page_loading.dart';
@@ -14,7 +15,6 @@ class BillingPage extends StatefulWidget {
 }
 
 class _BillingPageState extends State<BillingPage> {
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
   final bloc = BillingBloc();
   PatientModel patient;
   bool isLogin = false;
@@ -23,26 +23,34 @@ class _BillingPageState extends State<BillingPage> {
   @override
   void initState() {
     print('billing initState: run');
-    //if user login
-    MySharedPreferences sp = MySharedPreferences(context: context);
-    //check user session
-    sp = MySharedPreferences(context: context);
-    sp.getPatientIsLogin().then((isLogin){
-      print('initState: $isLogin');
 
-      //if user not login, clear preferences and remove preferences data
-      if(!isLogin) sp.clearData();
+    //check user connectivity;
+    MyConnectivity().getConnectivity().then((isConnect){
+
+      //if user not connected to internet
+      if(!isConnect) Navigator.popAndPushNamed(context, '/no_connection');
       else {
 
-        //if user is login but no data, clear preferences and remove
-        sp.getPatientPref().then((patient){
-          if(patient == null) sp.clearData();
+        //check user session
+        MySharedPreferences sp = MySharedPreferences(context: context);
+        sp = MySharedPreferences(context: context);
+        sp.getPatientIsLogin().then((isLogin){
+          print('initState: $isLogin');
+
+          //if user not login, clear preferences and remove preferences data
+          if(!isLogin) sp.clearData();
           else {
-            this.patient = patient;
-            setState(() => isGetPref = true);
+
+            //if user is login but no data, clear preferences and remove
+            sp.getPatientPref().then((patient){
+              if(patient == null) sp.clearData();
+              else {
+                this.patient = patient;
+                setState(() => isGetPref = true);
+              }
+            });
           }
         });
-
       }
     });
     super.initState();
@@ -52,11 +60,6 @@ class _BillingPageState extends State<BillingPage> {
   void dispose() {
     bloc.dispose();
     super.dispose();
-  }
-
-  Future<Null> refresh() async {
-    //initState();
-    print('refresh run');
   }
 
   @override
@@ -84,9 +87,7 @@ class _BillingPageState extends State<BillingPage> {
               }
 
               //default return generate widget
-              else {
-                return generateWidget(snapshot.data);
-              }
+              else return generateWidget(snapshot.data);
             }
             //default run circular progress
             return Center(child: WidgetCircularProgress());
