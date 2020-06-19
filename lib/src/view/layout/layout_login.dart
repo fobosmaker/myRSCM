@@ -274,9 +274,12 @@ class _VerticalLayoutStateLogin extends State<VerticalLayoutLogin> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
-                          FormInputWidget(label: "Username", controller: userName, isPassword: false),
-                          FormInputWidget(label: "Password", controller: password, isPassword: true),
-                          ListTile(
+                          FormInputWidget(label: "Nomor Medical Record", controller: userName, isPassword: false),
+                          FormInputWidget(label: "Tanggal Lahir (ex: 1987-12-27)", controller: password, isPassword: false),
+                          //FormInputWidget(label: "Username", controller: userName, isPassword: false),
+                          //FormInputWidget(label: "Password", controller: password, isPassword: true),
+                          //forgot password
+                          /*ListTile(
                             onTap: (){
                               //Navigator.push(context, MaterialPageRoute(builder: (context) => VerificationPage(flag: 0)));
                               Navigator.pushNamed(context,'/verification',arguments: 0);
@@ -290,14 +293,14 @@ class _VerticalLayoutStateLogin extends State<VerticalLayoutLogin> {
                                     letterSpacing: 0.5
                                 )
                             ),
-                          ),
+                          ),*/
                           isClick == true ?
                           StreamBuilder(
                             initialData: bloc.fetchDataVerification(userName.text,password.text),
                             stream: bloc.dataLogin,
                             builder: (context, AsyncSnapshot snapshot){
                               if(snapshot.connectionState == ConnectionState.active){
-                                String message= '';
+                                //String message= '';
                                 if(snapshot.hasData) {
                                   VerificationModel data = snapshot.data;
                                   if(data.statusCode == "200"){
@@ -369,13 +372,14 @@ class _VerticalLayoutStateLogin extends State<VerticalLayoutLogin> {
                                   borderRadius: BorderRadius.circular(25)
                               ),
                               child: Text(
-                                'Login',
+                                'Masuk',
                                 style: TextStyle(color: Colors.white, letterSpacing: 0.5, fontWeight: FontWeight.w300),
                                 textAlign: TextAlign.center,
                               ),
                             ),
                           ),
-                          InkWell(
+                          //register
+                          /*InkWell(
                             onTap: (){
                               Navigator.pushNamed(context,'/verification',arguments: 1);
                             },
@@ -392,7 +396,7 @@ class _VerticalLayoutStateLogin extends State<VerticalLayoutLogin> {
                                 textAlign: TextAlign.center,
                               ),
                             ),
-                          ),
+                          ),*/
                           Center(
                             child: Text(
                               error,

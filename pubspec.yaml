@@ -71,6 +71,7 @@ flutter:
     - assets/under-construction.png
     - assets/no_data.png
     - assets/no_connection.png
+    - assets/no_list_data.png
     - assets/doctor-appointment.png
     - assets/promo1.jpeg
     - assets/promo2.jpeg

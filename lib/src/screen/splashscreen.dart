@@ -41,16 +41,41 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
             flex: 1,
             child: Container(
               color: Colors.white,
-              child: Center(
-                  child: Image(
-                    image: AssetImage('assets/myRSCM.png'),
-                    width: 225,
-                    height: 225,
-                    fit: BoxFit.scaleDown,
-                  )
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    child: Image(
+                        image: AssetImage('assets/rscmKu_love_logo.png'),
+                        width: 150,
+                        height: 150
+                    )
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text('RSCM', style: TextStyle(fontSize: 30, letterSpacing: 0, color: Colors.blue[900], fontWeight: FontWeight.w800)),
+                        Text('Ku', style: TextStyle(fontSize: 30,letterSpacing: 0, color: Colors.red[900], fontWeight: FontWeight.w400))
+                      ],
+                    ),
+                  ),
+                ],
               )
             )
           ),
+          /*Container(
+              child: Image(
+                  image: AssetImage('assets/rscmKu_love_logo.png'),
+                  width: 150,
+                  height: 75
+              )
+          ),*/
           Container(
             child: Text('Powered by UMSI', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 10, color: defaultAppbarColor),)
           ),

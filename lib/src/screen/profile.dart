@@ -63,7 +63,8 @@ class _ProfilePageState extends State<ProfilePage> {
               padding: EdgeInsets.only(top:10),
               child: CardProfile(patient.patientMRN,patient.patientName),
             ),
-            ListTile(
+            //edit profile
+            /*ListTile(
                 contentPadding: EdgeInsets.fromLTRB(15,20,15,0),
                 title: Container(
                     padding: EdgeInsets.symmetric(vertical: 5, horizontal: 0),
@@ -81,6 +82,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     label: Text('Ubah')
                 )
             ),
+            */
             ListTile(
               contentPadding: EdgeInsets.fromLTRB(15,20,15,0),
               title: Container(

@@ -147,7 +147,7 @@ class _VerticalLayoutBillingState extends State<VerticalLayoutBilling> with Sing
           ),
           Container(padding: EdgeInsets.fromLTRB(15, 20, 0, 0), child: Text('Detail Tagihan', style: TextStyle(fontSize: 18,fontWeight: FontWeight.w700),),),
           Container(padding: EdgeInsets.fromLTRB(15, 10, 0, 10), child: Text('Rincian detail dari poin-poin informasi tagihan anda', style: TextStyle(fontSize: 14,fontWeight: FontWeight.w300),),),
-          WidgetNoData(title: "Data tidak ditemukan", subtitle: "Kami tidak dapat menemukan detail tagihan anda")
+          WidgetNoData(title: "Data tidak ditemukan", subtitle: "Kami tidak dapat menemukan detail tagihan anda", isBack: true)
         ],
       )
     );

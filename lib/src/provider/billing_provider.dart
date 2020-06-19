@@ -59,10 +59,29 @@ class BillingProvider{
 
     if(data['tab'] != null){
       print('convertGetBillingData: generate billing detail');
-      Map<String, dynamic> map = data['tab'];
-      map.forEach((key,val) => groupTab.add(new TabModel(id: map[key]['org_id'], content: map[key]['org_nm'], total: map[key]['total'], data:getBillingDetail(map[key]['detail']))));
+      try{
+        //bentuk response map
+        print('convertGetBillingData: bentuk response map');
+        Map<String, dynamic> map = data['tab'];
+        map.forEach((key,val) => groupTab.add(new TabModel(id: map[key]['org_id'], content: map[key]['org_nm'], total: map[key]['total'], data:getBillingDetail(map[key]['detail']) )));
+        print('convertGetBillingData success');
+      } catch(e){
+        //bentuk response list
+        print('convertGetBillingData: bentuk response list');
+        List<dynamic> tab = data['tab'];
+        for(int i = 0; i < tab.length; i++){
+          groupTab.add(
+              new TabModel(
+                  id: tab[i]['org_id'],
+                  content: tab[i]['org_nm'],
+                  total: tab[i]['total'],
+                  data: getBillingDetail(tab[i]['detail'])
+              )
+          );
+        }
+        //print('convertGetBillingData error: $e');
+      }
     }
-
     print('convertGetBillingData: result summary: $totalSummary, deposit: $totalDeposit, tagihan: $totalTagihan, data:${groupTab.length}');
     return new BillingDataModel(totalSummary: totalSummary, totalDeposit: totalDeposit, totalTagihan: totalTagihan, tab:groupTab);
   }
@@ -71,10 +90,15 @@ class BillingProvider{
     print('getBillingdetail: run');
     List<CardExample> listDetail = [];
 
-    print('getBillingdetail: generate card billing detail');
-    for(int j = 0; j < data.length; j++) listDetail.add(new CardExample(id: data[j]['item_id'], title: data[j]['item_nm'],date: data[j]['item_dttm'], description: data[j]['item_desc'], price: data[j]['tariff']));
+    try{
+      print('getBillingdetail: generate card billing detail');
+      for(int j = 0; j < data.length; j++) listDetail.add(new CardExample(id: data[j]['item_id'], title: data[j]['item_nm'],date: data[j]['item_dttm'], description: data[j]['item_desc'], price: data[j]['tariff']));
+      print('getBillingdetail generate card success');
+    } catch(e) {
+      print('getBillingdetail generate card error: $e');
+    }
 
-    print('getBillingdetail: generate card billing finish');
+    print('getBillingdetail: finish');
     return listDetail;
   }
 
@@ -103,12 +127,19 @@ class BillingProvider{
       print('getMoreBillingDetail response: $jsonData');
 
       if(jsonData['statusCode'] == '200'){
-        if(jsonData['data'].runtimeType == [].runtimeType){
-          print('getMoreBillingDetail: data kosong');
+        try{
+          List<dynamic> data = jsonData['data'];
+          print('getMoreBillingDetail data length : ${data.length}');
+          if(jsonData['data'].runtimeType == [].runtimeType && data.length == 0){
+            print('getMoreBillingDetail: data kosong');
+            return null;
+          } else {
+            print('getMoreBillingDetail: data ada');
+            return new BillingDataMoreModel(statusCode: jsonData['statusCode'], message: jsonData['message'],  data: getBillingDetail(data) );
+          }
+        } catch(e){
+          print('getMoreBillingDetail failed to generate card detail');
           return null;
-        } else {
-          print('getMoreBillingDetail: data ada');
-          return new BillingDataMoreModel(statusCode: jsonData['statusCode'], message: jsonData['message'],  data: getBillingDetail(jsonData['data']) );
         }
       } else throw('Response error from server');
     } catch (e){

@@ -5,8 +5,9 @@ class WidgetNoData extends StatefulWidget {
 
   final String title;
   final String subtitle;
+  final bool isBack;
 
-  WidgetNoData({this.title, this.subtitle});
+  WidgetNoData({this.title, this.subtitle, this.isBack});
 
   @override
   _WidgetNoDataState createState() => _WidgetNoDataState();
@@ -24,8 +25,10 @@ class _WidgetNoDataState extends State<WidgetNoData> {
         children: <Widget>[
         Container(
           child: Image(
-            image: AssetImage('assets/no_data.png'),
-            fit: BoxFit.cover,
+            image: AssetImage('assets/no_list_data.png'),
+            fit: BoxFit.scaleDown,
+            width: 250,
+            height: 150,
           ),
         ),
         Container(
@@ -54,6 +57,7 @@ class _WidgetNoDataState extends State<WidgetNoData> {
                 )
             )
         ),
+        widget.isBack == true ?
         InkWell(
               onTap: (){
                 Navigator.pop(context);
@@ -71,7 +75,9 @@ class _WidgetNoDataState extends State<WidgetNoData> {
                   textAlign: TextAlign.center,
                 ),
               ),
-            ),
+            )
+            :
+        SizedBox(height: 20,)
         ],
       ),
     );

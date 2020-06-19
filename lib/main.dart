@@ -19,7 +19,7 @@ import 'package:myrscm/src/screen/verification.dart';
 
 void main() => runApp(MaterialApp(
   debugShowCheckedModeBanner: false,
-  initialRoute: '/home',
+  initialRoute: '/splash',
   routes: {
     //no login
     '/splash': (context) => SplashScreenPage(),
