@@ -79,7 +79,6 @@ class BillingProvider{
               )
           );
         }
-        //print('convertGetBillingData error: $e');
       }
     }
     print('convertGetBillingData: result summary: $totalSummary, deposit: $totalDeposit, tagihan: $totalTagihan, data:${groupTab.length}');

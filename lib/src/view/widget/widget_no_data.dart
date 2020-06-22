@@ -17,10 +17,10 @@ class _WidgetNoDataState extends State<WidgetNoData> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      //color: Colors.white,
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
         Container(
@@ -77,7 +77,7 @@ class _WidgetNoDataState extends State<WidgetNoData> {
               ),
             )
             :
-        SizedBox(height: 20,)
+        SizedBox(height: 20)
         ],
       ),
     );

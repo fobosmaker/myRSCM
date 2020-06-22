@@ -11,7 +11,7 @@ class Repository{
 /*USER API*/
   //Verification
   Future<VerificationModel> verification(String mrn, String birthdate) => userAPIProvider.verification(mrn,birthdate);
-  //REGISTRASI
+  //Registrasi
   Future<DefaultModel> registration(String patientId, String username, String password) => userAPIProvider.registrasi(patientId,username,password);
 /*!USER API*/
 
@@ -21,4 +21,8 @@ class Repository{
   //Get more data on card
   Future<BillingDataMoreModel> fetchcard(String patientId, String orgId, int totalData) => billingAPIProvider.getMoreBillingDetail(patientId, orgId, totalData);
 /*!BILLING API*/
+
+/*APPOINTMENT API*/
+
+/*!APPOINTMENT API*/
 }

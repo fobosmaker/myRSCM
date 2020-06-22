@@ -1,4 +1,7 @@
 import 'package:myrscm/src/screen/about.dart';
+import 'package:myrscm/src/screen/appointment_detail.dart';
+import 'package:myrscm/src/screen/appointment_form.dart';
+import 'package:myrscm/src/screen/appointment_list.dart';
 import 'package:myrscm/src/screen/billing.dart';
 import 'package:myrscm/src/screen/change_password.dart';
 import 'package:myrscm/src/screen/content_edukasi.dart';
@@ -19,7 +22,7 @@ import 'package:myrscm/src/screen/verification.dart';
 
 void main() => runApp(MaterialApp(
   debugShowCheckedModeBanner: false,
-  initialRoute: '/splash',
+  initialRoute: '/home',
   routes: {
     //no login
     '/splash': (context) => SplashScreenPage(),
@@ -37,6 +40,9 @@ void main() => runApp(MaterialApp(
     '/billing': (context) => BillingPage(),
     '/about': (context) => AboutPage(),
     '/change_password': (context) => ChangePasswordPage(),
+    '/appointment': (context) => AppointmentListPage(),
+    '/appointment/detail': (context) => AppointmentDetailPage(),
+    '/appointment/add': (context) => AppointmentFormPage(),
 
     //additional
     '/under_construction': (context) => PageUnderConstruction(),

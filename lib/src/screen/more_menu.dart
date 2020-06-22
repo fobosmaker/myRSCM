@@ -37,7 +37,7 @@ class _MoreMenuPageState extends State<MoreMenuPage> {
         //run page when done
         Scaffold(
           appBar: AppBar(
-            title: Text('More'),
+            title: Text('Lainnya'),
             backgroundColor: defaultAppbarColor,
             centerTitle: true,
           ),
@@ -72,7 +72,7 @@ class _MoreMenuPageState extends State<MoreMenuPage> {
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
                       child: Text(
-                        'Tentang RSCM Kencana',
+                        'Tentang RSCMKu',
                         style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.w300,

@@ -72,8 +72,9 @@ class _VerticalLayoutDraftHomeState extends State<VerticalLayoutDraftHome> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
+                    CircleButtonMenuHome(title: 'Perjanjian', color: Colors.tealAccent, icon: Icons.collections_bookmark, onclick: (){ Navigator.pushNamed(context,'/appointment'); }),
                     CircleButtonMenuHome(title: 'Tagihan', color: Colors.lightBlueAccent, icon: Icons.receipt, onclick: () => Navigator.pushNamed(context,'/billing')),
-                    CircleButtonMenuHome(title: 'Diet Pasien', color: Colors.redAccent, icon: Icons.restaurant_menu, onclick: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => PageUnderConstruction())); }),
+                    CircleButtonMenuHome(title: 'Diet', color: Colors.redAccent, icon: Icons.restaurant_menu, onclick: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => PageUnderConstruction())); }),
                     CircleButtonMenuHome(title: 'Gerai', color: Colors.orangeAccent, icon: Icons.fastfood, onclick: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => PageUnderConstruction())); }),
                   ],
                 ),

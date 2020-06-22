@@ -18,7 +18,7 @@ class _PageNoDataState extends State<PageNoData> {
         centerTitle: true,
         backgroundColor: defaultAppbarColor,
       ),
-      body: WidgetNoData(title: widget.title,subtitle: widget.subtitle,),
+      body: Center(child: WidgetNoData(title: widget.title,subtitle: widget.subtitle,)),
     );
   }
 }
