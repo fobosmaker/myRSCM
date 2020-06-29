@@ -4,7 +4,6 @@ import 'package:myrscm/src/model/patient_model.dart';
 import 'package:myrscm/src/screen/SelectedImage.dart';
 import 'package:myrscm/src/screen/content_edukasi.dart';
 import 'package:myrscm/src/screen/more_menu.dart';
-import 'package:myrscm/src/screen/page_under_construction.dart';
 import 'package:myrscm/src/view/widget/card_home.dart';
 import 'package:myrscm/src/view/widget/card_profile.dart';
 import 'package:myrscm/src/view/widget/circle_button_menu_home.dart';
@@ -72,10 +71,11 @@ class _VerticalLayoutDraftHomeState extends State<VerticalLayoutDraftHome> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    CircleButtonMenuHome(title: 'Perjanjian', color: Colors.tealAccent, icon: Icons.collections_bookmark, onclick: (){ Navigator.pushNamed(context,'/appointment'); }),
+                    //CircleButtonMenuHome(title: 'Perjanjian', color: Colors.redAccent, icon: Icons.collections_bookmark, onclick: () => Navigator.pushNamed(context,'/appointment')),
                     CircleButtonMenuHome(title: 'Tagihan', color: Colors.lightBlueAccent, icon: Icons.receipt, onclick: () => Navigator.pushNamed(context,'/billing')),
-                    CircleButtonMenuHome(title: 'Diet', color: Colors.redAccent, icon: Icons.restaurant_menu, onclick: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => PageUnderConstruction())); }),
-                    CircleButtonMenuHome(title: 'Gerai', color: Colors.orangeAccent, icon: Icons.fastfood, onclick: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => PageUnderConstruction())); }),
+                    CircleButtonMenuHome(title: 'Antrian Poli', color: Colors.orangeAccent, icon: Icons.format_list_numbered, onclick: () => Navigator.pushNamed(context,'/antrian_poli')),
+                    //CircleButtonMenuHome(title: 'Diet', color: Colors.redAccent, icon: Icons.restaurant_menu, onclick: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => PageUnderConstruction())); }),
+                    //CircleButtonMenuHome(title: 'Gerai', color: Colors.orangeAccent, icon: Icons.fastfood, onclick: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => PageUnderConstruction())); }),
                   ],
                 ),
               ),
@@ -104,85 +104,44 @@ class _VerticalLayoutDraftHomeState extends State<VerticalLayoutDraftHome> {
                 ),
               ),
               Container(
-                  padding: EdgeInsets.fromLTRB(15, 5, 0, 20),
+                  padding: EdgeInsets.fromLTRB(0, 5, 0, 20),
                   height: 150,
                   child:
                   ListView(
                     scrollDirection: Axis.horizontal,
+                    padding: EdgeInsets.symmetric(horizontal: 5),
                     children: <Widget>[
-                      InkWell(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => SelectedImage(imageURL: 'assets/edukasi7.jpeg')));
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(0,0,10,0),
-                          child: CardHome(imageAsset: 'assets/edukasi7.jpeg',width: 150)
-                        ),
-                      ),
-                      InkWell(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => SelectedImage(imageURL: 'assets/edukasi8.jpeg')));
-                        },
-                        child: Padding(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
-                            child: CardHome(imageAsset: 'assets/edukasi8.jpeg',width: 150)
-                        ),
-                      ),
-                      InkWell(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => SelectedImage(imageURL: 'assets/edukasi9.jpeg')));
-                        },
-                        child: Padding(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
-                            child: CardHome(imageAsset: 'assets/edukasi9.jpeg',width: 150)
-                        ),
-                      ),
-                      InkWell(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => SelectedImage(imageURL: 'assets/edukasi10.jpeg')));
-                        },
-                        child: Padding(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
-                            child: CardHome(imageAsset: 'assets/edukasi10.jpeg',width: 150)
-                        ),
-                      ),
-                      InkWell(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => SelectedImage(imageURL: 'assets/edukasi11.jpeg')));
-                        },
-                        child: Padding(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
-                            child: CardHome(imageAsset: 'assets/edukasi11.jpeg',width: 150)
-                        ),
-                      ),
+                      CardHome(imageAsset: 'assets/edukasi7.jpeg',width: 150, onclick: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => SelectedImage(imageURL: 'assets/edukasi7.jpeg'))); }),
+                      CardHome(imageAsset: 'assets/edukasi8.jpeg',width: 150, onclick: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => SelectedImage(imageURL: 'assets/edukasi8.jpeg'))); }),
+                      CardHome(imageAsset: 'assets/edukasi9.jpeg',width: 150, onclick: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => SelectedImage(imageURL: 'assets/edukasi9.jpeg'))); }),
+                      CardHome(imageAsset: 'assets/edukasi10.jpeg',width: 150, onclick: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => SelectedImage(imageURL: 'assets/edukasi10.jpeg'))); }),
+                      CardHome(imageAsset: 'assets/edukasi11.jpeg',width: 150, onclick: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => SelectedImage(imageURL: 'assets/edukasi11.jpeg'))); }),
                       InkWell(
                         onTap: (){
                           Navigator.push(context, MaterialPageRoute( builder: (context) => ContentEdukasiPage() ));
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(5,0,15,0),
-                          child: Container(
-                              height: 150,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: defaultAppbarColor,
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          height: 150,
+                          width: 150,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: defaultAppbarColor,
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(Icons.arrow_forward, color: Colors.white),
+                              Container(
+                                  padding: EdgeInsets.fromLTRB(0, 10, 0, 5),
+                                  child: Text(
+                                    'Lihat lebih banyak',
+                                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w300, color: Colors.white),
+                                  )
                               ),
-                              child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Icon(Icons.arrow_forward, color: Colors.white),
-                                Container(
-                                    padding: EdgeInsets.fromLTRB(0, 10, 0, 5),
-                                    child: Text(
-                                      'Lihat lebih banyak',
-                                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w300, color: Colors.white),
-                                    )
-                                ),
-                              ],
-                            ),
+                            ],
                           ),
                         ),
                       )
@@ -243,39 +202,16 @@ class _VerticalLayoutDraftHomeState extends State<VerticalLayoutDraftHome> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.fromLTRB(15, 5, 0, 20),
+                padding: EdgeInsets.fromLTRB(0, 5, 0, 20),
                 height: 175,
                 child:
                   ListView(
+                    padding: EdgeInsets.symmetric(horizontal: 5),
                     scrollDirection: Axis.horizontal,
                     children: <Widget>[
-                      InkWell(
-                        onTap:(){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => SelectedImage(imageURL: 'assets/promo1.jpeg')));
-                        },
-                        child:Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                          child: CardHome(imageAsset: 'assets/promo1.jpeg',width: 250)
-                        ),
-                      ),
-                      InkWell(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => SelectedImage(imageURL: 'assets/promo2.jpeg')));
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: CardHome(imageAsset: 'assets/promo2.jpeg',width: 250)
-                        ),
-                      ),
-                      InkWell(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => SelectedImage(imageURL: 'assets/promo3.jpeg')));
-                        },
-                        child: Padding(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 15, 0),
-                            child: CardHome(imageAsset: 'assets/promo3.jpeg',width: 250)
-                        ),
-                      ),
+                      CardHome(imageAsset: 'assets/promo1.jpeg',width: 250, onclick:(){ Navigator.push(context, MaterialPageRoute(builder: (context) => SelectedImage(imageURL: 'assets/promo1.jpeg'))); }),
+                      CardHome(imageAsset: 'assets/promo2.jpeg',width: 250, onclick:(){ Navigator.push(context, MaterialPageRoute(builder: (context) => SelectedImage(imageURL: 'assets/promo2.jpeg'))); }),
+                      CardHome(imageAsset: 'assets/promo3.jpeg',width: 250, onclick:(){ Navigator.push(context, MaterialPageRoute(builder: (context) => SelectedImage(imageURL: 'assets/promo3.jpeg'))); })
                     ],
                   )
               ),

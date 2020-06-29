@@ -1,3 +1,4 @@
+import 'package:myrscm/constant.dart';
 import 'package:myrscm/src/model/tab_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,27 +25,27 @@ class _WidgetCardBillingDetailState extends State<WidgetCardBillingDetail> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.fromLTRB(15,0,20,0),
+        padding: EdgeInsets.fromLTRB(20,0,20,20),
         child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children:<Widget>[
               DataTable(
-                  sortColumnIndex: 1,
-                  sortAscending: true,
+                  /*sortColumnIndex: 1,
+                  sortAscending: true,*/
                   columns: [
                     DataColumn(label:
                     Text('Lokasi', style:TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.w800,
-                      color: Colors.blueAccent,
+                      color: defaultAppbarColor,
                     ) )
                     ),
                     DataColumn(label: Text('Price', style:TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.w800,
-                      color: Colors.blueAccent,
+                      color: defaultAppbarColor,
                     )))
                   ],
                   rows: generateTableContent()
@@ -58,20 +59,31 @@ class _WidgetCardBillingDetailState extends State<WidgetCardBillingDetail> {
     for(var i = 0; i < data.length; i++) {
       TabModel row = data[i];
       list.add(DataRow(cells: [
-        DataCell(Text(row.content)),
-        DataCell(Text('Rp ${formatter.format(int.parse(row.total))}')),
+        DataCell(Text(
+            row.content,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w300
+          ),
+        )),
+        DataCell(Text('Rp ${formatter.format(int.parse(row.total))}',
+          style: TextStyle(
+            fontSize: 12,
+          fontWeight: FontWeight.w300
+          ),
+        )),
       ]));
     }
 
     list.add(DataRow(cells: [
       DataCell(Text('Total',style: TextStyle(
-        fontSize: 14.0,
-        fontWeight: FontWeight.w600,
-        color: Colors.redAccent,
+        fontSize: 12,
+        fontWeight: FontWeight.w700,
+        color: defaultAppbarColor,
       ))),
       DataCell(Text('Rp ${formatter.format(int.parse(totalSummary))}',style: TextStyle(
-        fontSize: 14.0,
-        fontWeight: FontWeight.w800,
+        fontSize: 12,
+        fontWeight: FontWeight.w700,
         color: Colors.black,
       ))),
     ]));

@@ -4,23 +4,22 @@ import 'package:myrscm/src/model/card_example_model.dart';
 import 'package:myrscm/src/model/patient_model.dart';
 import 'package:myrscm/src/model/tab_model.dart';
 import 'package:myrscm/src/screen/page_loading.dart';
-import 'package:myrscm/src/screen/page_no_data.dart';
 import 'package:myrscm/src/shared_preferences/shared_preferences.dart';
 import 'package:myrscm/src/view/widget/card_detail_billing.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myrscm/src/view/widget/widget_no_data.dart';
 
-class DynamicViewTab extends StatefulWidget {
+class LayoutBillingDetail extends StatefulWidget {
 
   final TabModel view;
-  DynamicViewTab(this.view);
+  LayoutBillingDetail(this.view);
 
   @override
-  _DynamicViewTabState createState() => _DynamicViewTabState(view);
+  _LayoutBillingDetailState createState() => _LayoutBillingDetailState(view);
 }
 
-class _DynamicViewTabState extends State<DynamicViewTab> {
+class _LayoutBillingDetailState extends State<LayoutBillingDetail> {
   
   final TabModel view;
   final bloc = BillingBloc();
@@ -30,7 +29,7 @@ class _DynamicViewTabState extends State<DynamicViewTab> {
   bool isGetPref = false;
   PatientModel patient;
   
-  _DynamicViewTabState(this.view);
+  _LayoutBillingDetailState(this.view);
 
   @override
   void initState() {
@@ -49,7 +48,9 @@ class _DynamicViewTabState extends State<DynamicViewTab> {
           if(patient == null) sp.clearData();
           else {
             this.patient = patient;
-            setState(() => isGetPref = true);
+            if(!isGetPref){
+              setState(() => isGetPref = true);
+            }
           }
         });
 
@@ -77,7 +78,81 @@ class _DynamicViewTabState extends State<DynamicViewTab> {
       print('generateCard: show ${listData.length} card');
       for(var i = 0; i < listData.length; i++) list.add(WidgetCardDetailBilling(listData[i]));
       if(isClicked){
-        list.add(StreamBuilder(
+        list.add(
+            FutureBuilder<BillingDataMoreModel>(
+                future: bloc.getDetailBilling(patient.patientId,view.id,listData.length),
+                builder:(context, snapshot){
+                  // if snapshot done
+                  if(snapshot.connectionState == ConnectionState.done){
+
+                    //if return api has error
+                    if(snapshot.hasError){
+                      print('getData : has error');
+                      WidgetsBinding.instance.addPostFrameCallback((_){
+                        Scaffold.of(context).showSnackBar(SnackBar(
+                          content: Text(snapshot.error.toString()),
+                        ));
+                        isClicked = false;
+                      });
+                      //return Container(child: Text(''));
+                    } else {
+                      //if snapshot has data
+                      if(snapshot.hasData){
+                        print('getData : success & has data');
+                        //return generateView(snapshot.data);
+                        BillingDataMoreModel dataMoreModel = snapshot.data;
+                        //filter data for because there is some data in array and ind result
+                        List<CardExample> filterData = [];
+                        for(int i = 0; i < dataMoreModel.data.length; i++){
+                          CardExample row = dataMoreModel.data[i];
+                          bool isContain = false;
+                          for(int j = 0; j < listData.length; j++){
+                            CardExample source = listData[j];
+                            if(source.id == row.id){
+                              isContain = true;
+                              break;
+                            }
+                          }
+                          if(!isContain) filterData.add(row);
+                        }
+                        //!filter data for because there is some data in array and ind result
+                        WidgetsBinding.instance.addPostFrameCallback((_){
+                          setState(() {
+                            isClicked = false;
+                            if(filterData.length == 0) {
+                              Scaffold.of(context).showSnackBar(SnackBar(
+                                content: Text("Data sudah semua ditampilkan"),
+                              ));
+                              print('udah abis datanya');
+                              //isClicked = false;
+                              isFinal = true;
+                            } else {
+                              listData.addAll(filterData);
+                              //isClicked = false;
+                            }
+                          });
+                        });
+                      }
+                      //if snapshot has no data
+                      else {
+                        print('getData : has null');
+                        WidgetsBinding.instance.addPostFrameCallback((_){
+                          Scaffold.of(context).showSnackBar(SnackBar(
+                            content: Text("Tidak ada lagi data detail tagihan."),
+                          ));
+                          isClicked = false;
+                        });
+                        //return Container(child: Text(''));
+                      }
+                    }
+                    return Container(child: Text(''));
+                  } else {
+                    print('getData connectionState: ${snapshot.connectionState}');
+                    return PageLoading();
+                  }
+                }
+            )
+            /*StreamBuilder(
             initialData: bloc.retrieveMoreDataBilling(patient.patientId,view.id,listData.length),
             stream: bloc.getmoreData,
             builder: (context, AsyncSnapshot snapshot){
@@ -144,8 +219,20 @@ class _DynamicViewTabState extends State<DynamicViewTab> {
                 return Container();
               } else return PageLoading();
             }
-        ));
+        )*/
+        );
       } else {
+        /*list.add(FlatButton.icon(
+            padding: EdgeInsets.all(20),
+            onPressed: (){
+              print('${view.id} - with size ${view.data.length}');
+              setState(() {
+                isClicked = true;
+              });
+            },
+            icon: Icon(Icons.expand_more),
+            label: Text('More')
+        ));*/
         //jika isi data lebih besar dari 4
         if(!isFinal && listData.length > 4){
           list.add(FlatButton.icon(
@@ -180,7 +267,7 @@ class _DynamicViewTabState extends State<DynamicViewTab> {
           scrollDirection: Axis.vertical,
           child: WidgetNoData(
               title: 'Data tidak ditemukan',
-              subtitle: 'Data detail tagihan di kelompok layanan ${view.content} tidak ditemukan',
+              subtitle: 'Detail tagihan di kelompok layanan ${view.content} tidak ditemukan.',
               isBack: false,
           )
       );

@@ -10,12 +10,13 @@ class MySharedPreferences{
   String patientGender = 'patientGender';
   String patientBirthdayDate = 'patientBirthdayDate';
   String patientPhone = 'patientPhone';
+  String patientUsername = 'patientUsername';
   String patientIsLogin = 'patientIsLogin';
   BuildContext context;
 
   MySharedPreferences({this.context});
 
-  Future<void> savePatientPref(PatientModel data, bool isLogin) async {
+  Future<void> savePatientPref(PatientModel data, bool isLogin, String username) async {
     print('MySharedPreferences: savePatientPref run');
     SharedPreferences pref = await SharedPreferences.getInstance();
     print('MySharedPreferences: savePatientPref data ${data.patientId} ${data.patientName} ${data.patientMRN}');
@@ -26,6 +27,8 @@ class MySharedPreferences{
     pref.setString(patientAddress, normalizeInput(data.patientAddress));
     pref.setString(patientGender, normalizeInput(data.patientGender));
     pref.setString(patientPhone, normalizeInput(data.patientPhone));
+
+    pref.setString(patientUsername, normalizeInput(username));
     pref.setBool(patientIsLogin, isLogin);
   }
 
@@ -34,6 +37,13 @@ class MySharedPreferences{
     SharedPreferences pref = await SharedPreferences.getInstance();
     print('MySharedPreferences: getBool : ${pref.getBool(patientIsLogin)}');
     return pref.getBool(patientIsLogin) ?? false;
+  }
+
+  Future<String> getPatientUsername() async {
+    print('MySharedPreferences: getPatientUsername run');
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    print('MySharedPreferences: getPatientUsername : ${pref.getString(patientUsername)}');
+    return pref.getString(patientUsername) ?? 'NULL';
   }
 
   Future<PatientModel> getPatientPref() async {

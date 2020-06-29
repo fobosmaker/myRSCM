@@ -274,12 +274,12 @@ class _VerticalLayoutStateLogin extends State<VerticalLayoutLogin> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
-                          FormInputWidget(label: "Nomor Medical Record", controller: userName, isPassword: false),
-                          FormInputWidget(label: "Tanggal Lahir (ex: 1987-12-27)", controller: password, isPassword: false),
-                          //FormInputWidget(label: "Username", controller: userName, isPassword: false),
-                          //FormInputWidget(label: "Password", controller: password, isPassword: true),
+                          //FormInputWidget(label: "Nomor Medical Record", controller: userName, isPassword: false),
+                          //FormInputWidget(label: "Tanggal Lahir (ex: 1987-12-27)", controller: password, isPassword: false),
+                          FormInputWidget(label: "Username", controller: userName, isPassword: false),
+                          FormInputWidget(label: "Password", controller: password, isPassword: true),
                           //forgot password
-                          /*ListTile(
+                          ListTile(
                             onTap: (){
                               //Navigator.push(context, MaterialPageRoute(builder: (context) => VerificationPage(flag: 0)));
                               Navigator.pushNamed(context,'/verification',arguments: 0);
@@ -293,10 +293,10 @@ class _VerticalLayoutStateLogin extends State<VerticalLayoutLogin> {
                                     letterSpacing: 0.5
                                 )
                             ),
-                          ),*/
+                          ),
                           isClick == true ?
                           StreamBuilder(
-                            initialData: bloc.fetchDataVerification(userName.text,password.text),
+                            initialData: bloc.fetchDataLogin(userName.text,password.text),
                             stream: bloc.dataLogin,
                             builder: (context, AsyncSnapshot snapshot){
                               if(snapshot.connectionState == ConnectionState.active){
@@ -309,7 +309,7 @@ class _VerticalLayoutStateLogin extends State<VerticalLayoutLogin> {
 
                                     //save to session
                                     MySharedPreferences sp = MySharedPreferences(context: this.context);
-                                    sp.savePatientPref(patient, true);
+                                    sp.savePatientPref(patient, true, userName.text);
 
                                     //add callback
                                     WidgetsBinding.instance.addPostFrameCallback((_){
@@ -379,7 +379,7 @@ class _VerticalLayoutStateLogin extends State<VerticalLayoutLogin> {
                             ),
                           ),
                           //register
-                          /*InkWell(
+                          InkWell(
                             onTap: (){
                               Navigator.pushNamed(context,'/verification',arguments: 1);
                             },
@@ -396,7 +396,7 @@ class _VerticalLayoutStateLogin extends State<VerticalLayoutLogin> {
                                 textAlign: TextAlign.center,
                               ),
                             ),
-                          ),*/
+                          ),
                           Center(
                             child: Text(
                               error,

@@ -38,6 +38,29 @@ class BillingBloc{
     print('retrieveMoreDataBilling: finish');
   }
 
+  Future<BillingModel> getBilling(String patientId) async {
+    print('getBilling: run');
+    try{
+      BillingModel data = await _repository.fetchDataBilling(patientId);
+      print('getBilling: success!');
+      return data;
+    } catch(e) {
+      print('getBilling: ERROR!');
+      throw Exception(e);
+    }
+  }
+
+  Future<BillingDataMoreModel> getDetailBilling(String patientId, String orgId, int totalData) async {
+    print('fetchDataBilling: run');
+    try{
+      BillingDataMoreModel data = await _repository.fetchcard(patientId, orgId, totalData);
+      print('fetchDataBilling: get data success!');
+      return data;
+    } catch(e) {
+      throw Exception(e);
+    }
+  }
+
   dispose(){
     billingController.close();
     moreData.close();

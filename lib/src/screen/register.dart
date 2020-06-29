@@ -38,6 +38,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     final PatientModel args = ModalRoute.of(context).settings.arguments;
+    print(args.patientId);
     return Scaffold(
       key: globalScaffoldKey,
       backgroundColor: defaultAppbarColor,
@@ -120,26 +121,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       builder: (context, AsyncSnapshot snapshot){
                         if(snapshot.connectionState == ConnectionState.active){
                           String message;
-                          if(snapshot.hasData) {
-                            DefaultModel data = snapshot.data;
-                            if(data.data.status == "200"){
-                              print('register success');
-                              //add callback
-                              WidgetsBinding.instance.addPostFrameCallback((_){
-                                setState(() {
-                                  isClick = false;
-                                  //set session for user
-                                  MySharedPreferences sp = MySharedPreferences(context: this.context);
-                                  sp.savePatientPref(args, true);
-                                  //move to home
-                                  Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
-                                });
-                              });
-                            } else {
-                              print('data error ${data.data.message}');
-                              message = data.data.message;
-                            }
-                          }
 
                           //if error come from API
                           if(snapshot.hasError){
@@ -151,6 +132,24 @@ class _RegisterPageState extends State<RegisterPage> {
                                 isClick = false;
                                 final snackBar = SnackBar(content: Text(message));
                                 Scaffold.of(context).showSnackBar(snackBar);
+                              });
+                            });
+                          }
+
+                          //if success
+                          if(snapshot.hasData) {
+                            print('register success');
+                            //add callback
+                            WidgetsBinding.instance.addPostFrameCallback((_){
+                              setState(() {
+                                isClick = false;
+
+                                //set session for user
+                                MySharedPreferences sp = MySharedPreferences(context: this.context);
+                                sp.savePatientPref(args, true, username.text);
+
+                                //move to home
+                                Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
                               });
                             });
                           }

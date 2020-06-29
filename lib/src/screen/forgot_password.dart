@@ -1,7 +1,10 @@
 import 'package:myrscm/constant.dart';
+import 'package:myrscm/src/bloc/user_bloc.dart';
+import 'package:myrscm/src/model/default_model.dart';
 import 'package:myrscm/src/model/patient_model.dart';
 import 'package:myrscm/src/view/widget/form_input.dart';
 import 'package:flutter/material.dart';
+import 'package:myrscm/src/view/widget/widget_circular_progress.dart';
 class ForgotPasswordResetPage extends StatefulWidget {
   @override
   _ForgotPasswordResetPageState createState() => _ForgotPasswordResetPageState();
@@ -12,7 +15,20 @@ class _ForgotPasswordResetPageState extends State<ForgotPasswordResetPage> {
   final _formResetPassword = GlobalKey<FormState>();
   final newPassword = TextEditingController();
   final confirmNewPassword = TextEditingController();
+  bool isClick = false;
+  final bloc = UserBLoc();
 
+  @override
+  void initState() {
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    bloc.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     final PatientModel args = ModalRoute.of(context).settings.arguments;
@@ -54,13 +70,52 @@ class _ForgotPasswordResetPageState extends State<ForgotPasswordResetPage> {
                         children: <Widget>[
                           FormInputWidget(label: "Password Baru", controller: newPassword, isPassword: true),
                           FormInputWidget(label: "Konfirmasi Password Baru", controller: confirmNewPassword, isPassword: true),
+                          isClick == true ?
+                          StreamBuilder(
+                              initialData: bloc.changePassword(args.patientId, newPassword.text),
+                              stream: bloc.dataChangePassword,
+                              builder: (context, AsyncSnapshot snapshot){
+                                if(snapshot.connectionState == ConnectionState.active){
+
+                                  //if error come from API
+                                  if(snapshot.hasError){
+                                    print('forgot password has error');
+                                    WidgetsBinding.instance.addPostFrameCallback((_){
+                                      //add callback
+                                      setState(() {
+                                        isClick = false;
+                                        final snackBar = SnackBar(content: Text(snapshot.error.toString()));
+                                        Scaffold.of(context).showSnackBar(snackBar);
+                                      });
+                                    });
+                                  }
+
+                                  //if success
+                                  if(snapshot.hasData) {
+                                    DefaultModel data = snapshot.data;
+                                    print('forgot password success');
+                                    //add callback
+                                    WidgetsBinding.instance.addPostFrameCallback((_){
+                                      setState(() {
+                                        isClick = false;
+                                        //move to login
+                                        Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+                                      });
+                                    });
+                                  }
+                                }
+                                //default run circular progress
+                                return Center(child: Padding(
+                                  padding: const EdgeInsets.all(20),
+                                  child: WidgetCircularProgress(),
+                                ));
+                              })
+                              :
                           InkWell(
                             onTap: (){
                               if(_formResetPassword.currentState.validate()){
                                 if(newPassword.text == confirmNewPassword.text){
-                                  final snackBar = SnackBar(content: Text("Reset password successfully..."));
-                                  globalScaffoldKey.currentState.showSnackBar(snackBar);
-                                  Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+                                  setState(() => isClick = true);
                                 } else {
                                   final snackBar = SnackBar(content: Text("Your new password and confirm new password doesn't match!"));
                                   globalScaffoldKey.currentState.showSnackBar(snackBar);

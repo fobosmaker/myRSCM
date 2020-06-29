@@ -12,7 +12,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
-import 'dynamic_view_tab.dart';
+import 'layout_billing_detail.dart';
 
 class VerticalLayoutBilling extends StatefulWidget {
 
@@ -83,7 +83,13 @@ class _VerticalLayoutBillingState extends State<VerticalLayoutBilling> with Sing
                             ),
                             Container(
                                 child: ExpansionTile(
-                                  title: Text('More detail'),
+                                  title: Text(
+                                      'More detail',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 14
+                                    ),
+                                  ),
                                   children: <Widget>[
                                     WidgetCardBillingDetail(data.data.tab, data.data.totalSummary),
                                   ],
@@ -135,7 +141,7 @@ class _VerticalLayoutBillingState extends State<VerticalLayoutBilling> with Sing
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          CirclePointDetailBilling(title: 'Total', content: 'Rp ${formatter.format(int.parse(data.data.totalSummary))}', icon: Icons.receipt, color: Colors.blueAccent),
+                          CirclePointDetailBilling(title: 'Total', content: 'Rp ${formatter.format(int.parse(data.data.totalSummary))}', icon: Icons.receipt, color: Colors.white),
                           CirclePointDetailBilling(title: 'Deposit', content: 'Rp ${formatter.format(int.parse(data.data.totalDeposit))}', icon: Icons.arrow_upward, color: Colors.greenAccent),
                           CirclePointDetailBilling(title: 'Tagihan', content: 'Rp ${formatter.format(int.parse(data.data.totalTagihan))}', icon: Icons.arrow_downward, color: Colors.deepOrangeAccent),
                         ],
@@ -181,7 +187,7 @@ class _VerticalLayoutBillingState extends State<VerticalLayoutBilling> with Sing
   List<Widget> generateTabView(List<TabModel> dataTabModel ){
     List<Widget> widget = [];
     for(int i = 0; i < dataTabModel.length; i++){
-      widget.add(DynamicViewTab(dataTabModel[i]));
+      widget.add(LayoutBillingDetail(dataTabModel[i]));
     }
     return widget;
   }
@@ -326,7 +332,7 @@ class _HorizontalLayoutBillingState extends State<HorizontalLayoutBilling> with 
   List<Widget> generateTabView(){
     List<Widget> widget = [];
     for(int i = 0; i < dataTabModel.length; i++){
-      widget.add(DynamicViewTab(dataTabModel[i]));
+      widget.add(LayoutBillingDetail(dataTabModel[i]));
     }
     return widget;
   }

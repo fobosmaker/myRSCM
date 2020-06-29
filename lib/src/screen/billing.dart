@@ -1,5 +1,6 @@
 import 'package:myrscm/src/bloc/billing_bloc.dart';
 import 'package:myrscm/src/connectivity/connectivity.dart';
+import 'package:myrscm/src/model/billing_model.dart';
 import 'package:myrscm/src/model/patient_model.dart';
 import 'package:myrscm/src/screen/page_500.dart';
 import 'package:myrscm/src/screen/page_loading.dart';
@@ -68,7 +69,7 @@ class _BillingPageState extends State<BillingPage> {
     print('billing build: run');
     return Scaffold(
       body: isGetPref == true ?
-      StreamBuilder(
+      /*StreamBuilder(
           initialData: bloc.fetchDataBilling(patient.patientId),
           stream: bloc.dataBilling,
           builder: (context,AsyncSnapshot snapshot){
@@ -87,15 +88,50 @@ class _BillingPageState extends State<BillingPage> {
               }
 
               //default return generate widget
-              else return generateWidget(snapshot.data);
+              else return generateView(snapshot.data);
             }
             //default run circular progress
             return Center(child: WidgetCircularProgress());
-          }) : PageLoading()
+          })*/getData() : PageLoading()
     );
   }
 
-  Widget generateWidget(data){
+  Widget getData(){
+    return FutureBuilder<BillingModel>(
+        future: bloc.getBilling(patient.patientId),
+        builder:(context, snapshot){
+          // if snapshot done
+          if(snapshot.connectionState == ConnectionState.done){
+
+            //if return api has error
+            if(snapshot.hasError){
+              print('getData : has error');
+              //add callback
+              WidgetsBinding.instance.addPostFrameCallback((_){
+                Navigator.pushReplacementNamed(context,'/server_error');
+              });
+              return Container(child: Text(''));
+            } else {
+              //if snapshot has data
+              if(snapshot.hasData){
+                print('getData : success & has data');
+                return generateView(snapshot.data);
+              }
+              //if snapshot has no data
+              else {
+                print('getData : has null');
+                return PageNoData(title: 'Tidak ada tagihan', subtitle: 'Tidak ada data tagihan yang dikenakan kepada anda.');
+              }
+            }
+          } else {
+            print('getData connectionState: ${snapshot.connectionState}');
+            return PageLoading();
+          }
+        }
+    );
+  }
+
+  Widget generateView(data){
     return OrientationBuilder(builder: (context, orientation) {
       return VerticalLayoutBilling(data);
       //return MediaQuery.of(context).size.width > 500 ? HorizontalLayoutBilling(data) : VerticalLayoutBilling(data);

@@ -15,6 +15,8 @@ class _ProfilePageState extends State<ProfilePage> {
   MySharedPreferences sp;
   bool isGetPref = false;
   PatientModel patient;
+  String username;
+
 
   @override
   void initState() {
@@ -33,7 +35,15 @@ class _ProfilePageState extends State<ProfilePage> {
           if(patient == null) sp.clearData();
           else {
             this.patient = patient;
-            setState(() => isGetPref = true);
+
+            //get username
+            sp.getPatientUsername().then((username){
+              setState((){
+                this.username = username;
+                isGetPref = true;
+              });
+            });
+
           }
         });
 
@@ -64,7 +74,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: CardProfile(patient.patientMRN,patient.patientName),
             ),
             //edit profile
-            /*ListTile(
+            ListTile(
                 contentPadding: EdgeInsets.fromLTRB(15,20,15,0),
                 title: Container(
                     padding: EdgeInsets.symmetric(vertical: 5, horizontal: 0),
@@ -82,7 +92,14 @@ class _ProfilePageState extends State<ProfilePage> {
                     label: Text('Ubah')
                 )
             ),
-            */
+            Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.white,
+                ),
+                margin: EdgeInsets.fromLTRB(15, 0, 15, 20),
+                child: ListTileDetailProfile(title: 'Username', content: username, icon: Icons.person_outline),
+            ),
             ListTile(
               contentPadding: EdgeInsets.fromLTRB(15,20,15,0),
               title: Container(

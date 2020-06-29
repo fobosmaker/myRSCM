@@ -11,7 +11,8 @@ class _AppointmentListPageState extends State<AppointmentListPage> {
   final globalScaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return
+      Scaffold(
       key: globalScaffoldKey,
       appBar: AppBar(
         centerTitle: true,
@@ -70,7 +71,7 @@ class _AppointmentListPageState extends State<AppointmentListPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(context,'/appointment/add'),
+        onPressed: () => Navigator.pushNamed(context,'/appointment/form_step1'),
         backgroundColor: defaultAppbarColor,
         foregroundColor: defaultAppbarContentColor,
         child: Icon(Icons.add),

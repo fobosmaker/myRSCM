@@ -11,6 +11,7 @@ class _ListTileProfileState extends State<ListTileDetailProfile> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      isThreeLine: true,
       contentPadding: EdgeInsets.symmetric(horizontal: 20),
       leading: Icon(widget.icon, color: Colors.teal),
       title: Text(

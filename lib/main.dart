@@ -1,6 +1,9 @@
 import 'package:myrscm/src/screen/about.dart';
+import 'package:myrscm/src/screen/antrian%20poli.dart';
 import 'package:myrscm/src/screen/appointment_detail.dart';
-import 'package:myrscm/src/screen/appointment_form.dart';
+import 'package:myrscm/src/screen/appointment_form_step1.dart';
+import 'package:myrscm/src/screen/appointment_form_step2.dart';
+import 'package:myrscm/src/screen/appointment_form_step_confirm.dart';
 import 'package:myrscm/src/screen/appointment_list.dart';
 import 'package:myrscm/src/screen/billing.dart';
 import 'package:myrscm/src/screen/change_password.dart';
@@ -22,7 +25,7 @@ import 'package:myrscm/src/screen/verification.dart';
 
 void main() => runApp(MaterialApp(
   debugShowCheckedModeBanner: false,
-  initialRoute: '/home',
+  initialRoute: '/splash',
   routes: {
     //no login
     '/splash': (context) => SplashScreenPage(),
@@ -42,7 +45,11 @@ void main() => runApp(MaterialApp(
     '/change_password': (context) => ChangePasswordPage(),
     '/appointment': (context) => AppointmentListPage(),
     '/appointment/detail': (context) => AppointmentDetailPage(),
-    '/appointment/add': (context) => AppointmentFormPage(),
+    '/appointment/form_step1': (context) => AppointmentFormStep1Page(),
+    '/appointment/form_step2': (context) => AppointmentFormStep2Page(),
+    '/appointment/form_confirm': (context) => AppointmentFormStepConfirmPage(),
+    '/antrian_poli': (context) => AntrianPoliPage(),
+
 
     //additional
     '/under_construction': (context) => PageUnderConstruction(),

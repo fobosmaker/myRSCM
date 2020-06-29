@@ -16,8 +16,6 @@ class _WidgetColumnDetailPerjanjianState extends State<WidgetColumnDetailPerjanj
   final String content;
   _WidgetColumnDetailPerjanjianState(this.label, this.content);
 
-
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,7 +33,8 @@ class _WidgetColumnDetailPerjanjianState extends State<WidgetColumnDetailPerjanj
             padding: const EdgeInsets.only(bottom: 10),
             child: Text(content, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),),
           ),
-         Divider( height: 20, color: Colors.grey[300],)
+         SizedBox(height: 20)
+         //Divider( height: 20, color: Colors.grey[300],)
         ],
       ),
     );

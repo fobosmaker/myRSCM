@@ -40,7 +40,7 @@ class Page500 extends StatelessWidget {
                 color: Colors.white,
               padding: EdgeInsets.symmetric(horizontal: 75, vertical: 15),
                 child: Text(
-                    'Something wrong happenned, please comeback later...',
+                    'Sedang terjadi masalah dalam sistem, silahkan coba kembali dalam beberapa saat lagi.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 16,

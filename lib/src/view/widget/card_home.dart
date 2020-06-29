@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CardHome extends StatefulWidget {
-  String imageAsset;
-  double width;
-  CardHome({this.imageAsset, this.width});
+  final String imageAsset;
+  final double width;
+  final Function onclick;
+  CardHome({this.imageAsset, this.width, this.onclick});
   @override
   _CardHomeState createState() => _CardHomeState();
 }
@@ -11,14 +12,18 @@ class CardHome extends StatefulWidget {
 class _CardHomeState extends State<CardHome> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-        width: widget.width,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          image: DecorationImage(
-                  image: AssetImage(widget.imageAsset),
-                  fit: BoxFit.fitWidth)
-        )
+    return InkWell(
+      onTap: widget.onclick,
+      child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          width: widget.width,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            image: DecorationImage(
+                    image: AssetImage(widget.imageAsset),
+                    fit: BoxFit.fitWidth)
+          )
+      ),
     );
   }
 }

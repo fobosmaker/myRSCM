@@ -82,7 +82,7 @@ class _VerificationPageState extends State<VerificationPage> {
                         isClick == true ?
                         StreamBuilder(
                             initialData: bloc.fetchDataVerification(nomorRekamMedik.text,tanggalLahir.text),
-                            stream: bloc.dataLogin,
+                            stream: bloc.dataVerification,
                             builder: (context, AsyncSnapshot snapshot){
                               if(snapshot.connectionState == ConnectionState.active){
                                 String message;
